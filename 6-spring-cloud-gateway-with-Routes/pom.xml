@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.amit.microservices</groupId>
-	<artifactId>4-spring-api-gateway</artifactId>
+	<artifactId>6-spring-cloud-gateway-with-Routes</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>4-spring-api-gateway</name>
-	<description>Details about eureka naming server</description>
+	<name>6-spring-cloud-gateway-with-Routes</name>
+	<description>Spring cloud gateway with Routers</description>
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
