@@ -11,7 +11,7 @@
 	<groupId>com.amit.microservices.currencyexchangeservice</groupId>
 	<artifactId>8-currency-exchange-service-circuit-Breaker-Retry</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>8-currency-exchange-service-circuit-Breaker-Retry</name>
+	<name>9-currency-exchange-service-circuit-Breaker-Retry</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
