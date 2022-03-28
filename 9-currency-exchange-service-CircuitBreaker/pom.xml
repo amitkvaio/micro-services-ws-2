@@ -10,9 +10,9 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.amit.microservices.currencyexchangeservice</groupId>
-	<artifactId>8-currency-exchange-service-Resilience4jRetry</artifactId>
+	<artifactId>9-currency-exchange-service-CircuitBreaker</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>8-currency-exchange-service-Resilience4jRetry</name>
+	<name>9-currency-exchange-service-CircuitBreaker</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
