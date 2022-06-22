@@ -40,7 +40,7 @@ public class CurrencyConversionController {
 				from, to, quantity, 
 				currencyConversion.getConversionMultiple(), 
 				quantity.multiply(currencyConversion.getConversionMultiple()), 
-				currencyConversion.getEnvironment()+ " " + "rest template");
+				currencyConversion.getEnvironment()+ " " + "Using-Rest-Template");
 		
 	}
 
@@ -57,7 +57,7 @@ public class CurrencyConversionController {
 				from, to, quantity, 
 				currencyConversion.getConversionMultiple(), 
 				quantity.multiply(currencyConversion.getConversionMultiple()), 
-				currencyConversion.getEnvironment() + " " + "feign");
+				currencyConversion.getEnvironment() + " " + "Using-Feign-Client");
 		
 	}
 

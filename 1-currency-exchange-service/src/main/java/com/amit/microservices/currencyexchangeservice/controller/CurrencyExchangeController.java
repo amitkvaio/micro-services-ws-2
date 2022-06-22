@@ -32,7 +32,7 @@ public class CurrencyExchangeController {
 				("Unable to Find data for " + from + " to " + to);
 		}
 		
-		String port = environment.getProperty("local.server.port");
+		String port = environment.getProperty("local.server.port")+"_Reading-Values-From-H2-DB";
 		currencyExchange.setEnvironment(port);
 		
 		return currencyExchange;
