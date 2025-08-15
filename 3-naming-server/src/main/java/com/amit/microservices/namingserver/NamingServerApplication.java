@@ -12,5 +12,4 @@ public class NamingServerApplication {
 		SpringApplication.run(NamingServerApplication.class, args);
 		System.out.println("NamingServerApplication has started successfully!!");
 	}
-
 }
