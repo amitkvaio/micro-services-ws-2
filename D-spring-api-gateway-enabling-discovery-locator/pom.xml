@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.amit.microservices</groupId>
-	<artifactId>D-spring-api-gateway</artifactId>
+	<artifactId>5-spring-api-gateway-enabling-discovery-locator</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>D-spring-api-gateway</name>
-	<description>Details about eureka naming server</description>
+	<name>5-spring-api-gateway-enabling-discovery-locator</name>
+	<description>Spring-api-gateway-enabling-discovery-locator</description>
 	<properties>
 		<java.version>17</java.version>
 		<spring-cloud.version>2025.0.0</spring-cloud.version>
@@ -63,4 +63,5 @@
 			</plugin>
 		</plugins>
 	</build>
+
 </project>
