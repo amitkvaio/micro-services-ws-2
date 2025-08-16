@@ -197,7 +197,7 @@ http://localhost:8000/currency-exchange/from/USD/to/INR
 
 #### Currency Conversion Service
 
-http://localhost:8100/currency-conversion/from/USD/to/INR/quantity/10
+http://localhost:8100/currency-conversion/from/USD/to/INR/quantity/10\
 http://localhost:8100/currency-conversion-feign/from/USD/to/INR/quantity/10
 
 #### Eureka
@@ -211,5 +211,5 @@ http://localhost:8765/CURRENCY-EXCHANGE/currency-exchange/from/USD/to/INR
 
 ###### For Currency-conversion 
  
-http://localhost:8765/CURRENCY-CONVERSION/currency-conversion-feign/from/USD/to/INR/quantity/10
+http://localhost:8765/CURRENCY-CONVERSION/currency-conversion-feign/from/USD/to/INR/quantity/10\
 http://localhost:8765/CURRENCY-CONVERSION/currency-conversion/from/from/USD/to/INR/quantity/10
