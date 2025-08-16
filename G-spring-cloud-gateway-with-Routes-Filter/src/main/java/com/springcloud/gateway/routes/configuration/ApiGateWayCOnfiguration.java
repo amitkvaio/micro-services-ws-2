@@ -18,7 +18,7 @@ public class ApiGateWayCOnfiguration {
 						
 				.uri("http://httpbin.org:80"))  // C
 						
-				///*
+				 
 				.route(p -> p.path("/currency-exchange/**")
 							.uri("lb://currency-exchange"))
 				
@@ -32,9 +32,7 @@ public class ApiGateWayCOnfiguration {
 								.filters(f -> f.rewritePath("/currency-conversion-new/(?<segment>.*)",
 															"/currency-conversion-feign/${segment}"))
 								.uri("lb://currency-conversion"))
-				//*/
 				//D From line number 25 to 36
-				
 				.build();//E
 	}
 }
@@ -45,6 +43,5 @@ Case 2: Un-comments A,C,E
 	Try to access - http://localhost:8765/get and analyze it.
 Case 3: Un-comments A,B,C,E, adding few headers in the request.
 
-
-
 */
+

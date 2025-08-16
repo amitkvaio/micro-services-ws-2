@@ -20,6 +20,8 @@ public class SpringCloudGatewayRouting {
                         .path("/currency-conversion-feign/**")  // Match all requests starting with this
                         .uri("lb://CURRENCY-CONVERSION")) // Forward to Eureka service name
                 .build();
+        
+        
     }
 }
 
