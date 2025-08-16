@@ -280,7 +280,7 @@ http://currency-conversion/currency-conversion-feign/from/USD/to/INR
 It’s useful when you want clients to use **simple or old paths**, but your backend microservice expects a **different path**.
 
 ---
-## **URL**
+## **URL**  
 http://localhost:8765/get  
 http://localhost:8765/currency-exchange/from/USD/to/INR  
 http://localhost:8765/currency-conversion-feign/from/USD/to/INR/quantity/10  
