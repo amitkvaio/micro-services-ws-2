@@ -81,7 +81,7 @@ public class SpringCloudGatewayRouting {
 http://localhost:8765/CURRENCY-EXCHANGE/currency-exchange/from/USD/to/INR
 
 ## **Currency-conversion** 
-http://localhost:8765/CURRENCY-CONVERSION/currency-conversion-feign/from/USD/to/INR/quantity/10
+http://localhost:8765/CURRENCY-CONVERSION/currency-conversion-feign/from/USD/to/INR/quantity/10  
 http://localhost:8765/CURRENCY-CONVERSION/currency-conversion/from/USD/to/INR/quantity/10
 
 ## **CURRENCY-EXCHANGE, CURRENCY-CONVERSION IN CAPS**. 
@@ -91,6 +91,6 @@ http://localhost:8765/CURRENCY-CONVERSION/currency-conversion/from/USD/to/INR/qu
 > spring.cloud.gateway.discovery.locator.lowerCaseServiceId=true
 
 **if lowerCaseServiceId is enabled then above URL will not work upper case.**
-http://localhost:8765/currency-exchange/currency-exchange/from/USD/to/INR
-http://localhost:8765/currency-conversion/currency-conversion-feign/from/USD/to/INR/quantity/10
+http://localhost:8765/currency-exchange/currency-exchange/from/USD/to/INR  
+http://localhost:8765/currency-conversion/currency-conversion-feign/from/USD/to/INR/quantity/10  
 http://localhost:8765/currency-conversion/currency-conversion/from/USD/to/INR/quantity/10
