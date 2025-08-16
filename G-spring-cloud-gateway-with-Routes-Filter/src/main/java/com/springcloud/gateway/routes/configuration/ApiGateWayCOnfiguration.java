@@ -13,8 +13,11 @@ public class ApiGateWayCOnfiguration {
 				
 				.route(p -> p.path("/get")  // A
 						
-				.filters(f -> f.addRequestHeader("MyHeader", "MyURI")
-							.addRequestParameter("Param", "MyValue")) // B line number 17,18
+					// Pre and Post filter provided by spring cloud gateway
+					.filters(f -> f.addRequestHeader("MyHeader", "MyURI")
+							.addRequestParameter("Param", "MyValue")
+							.addResponseHeader("MyHeaderResponse", "MyHeaderResponse")) // B line number 17,18
+			
 						
 				.uri("http://httpbin.org:80"))  // C
 						

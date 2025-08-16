@@ -1,0 +1,27 @@
+Currency Exchange Service
+http://localhost:8000/currency-exchange/from/USD/to/INR
+
+Currency Conversion Service
+http://localhost:8100/currency-conversion/from/USD/to/INR/quantity/10
+http://localhost:8100/currency-conversion-feign/from/USD/to/INR/quantity/10
+
+Eureka
+http://localhost:8761/
+
+API GATEWAY
+http://localhost:8765
+http://localhost:8765/currency-exchange/from/USD/to/INR
+http://localhost:8765/currency-conversion/from/USD/to/INR/quantity/10
+http://localhost:8765/currency-conversion-feign/from/USD/to/INR/quantity/10
+http://localhost:8765/currency-conversion-new/from/USD/to/INR/quantity/10
+
+
+Pre-filter Response
+2025-08-16T15:06:41.397+05:30  INFO 19256 --- [spring-cloud-gateway-global-filter] [ctor-http-nio-3] c.s.gateway.filter.LoggingFilter         : Global PRE Filter: JwtAuthGlobalFilter started
+2025-08-16T15:06:41.397+05:30  INFO 19256 --- [spring-cloud-gateway-global-filter] [ctor-http-nio-3] c.s.gateway.filter.LoggingFilter         : Global PRE Filter: JwtAuthGlobalFilter jwt token :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbWl0Iiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzU1MzM1NTgzLCJleHAiOjE3NTUzMzkxODN9.OF_5R7MJA47QeEtJubbwdICKwco9DXjBiGYJOeH5tG0
+2025-08-16T15:06:41.449+05:30  INFO 19256 --- [spring-cloud-gateway-global-filter] [ctor-http-nio-3] c.s.gateway.filter.LoggingFilter         : Global PRE Filter: JwtAuthGlobalFilter jwt token has validated successfully!
+2025-08-16T15:06:41.449+05:30  INFO 19256 --- [spring-cloud-gateway-global-filter] [ctor-http-nio-3] c.s.gateway.filter.LoggingFilter         : @LoggingFilter Global PRE Filter: Request Path Received -> /get
+
+Post-Filter Response
+@LoggingFilter Global POST Filter: Response status -> 200 OK
+Global POST Filter: JwtAuthGlobalFilter Response status -> 200 OK

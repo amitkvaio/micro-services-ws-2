@@ -1,4 +1,4 @@
-package com.springcloud.gateway.logging.configuration;
+package com.springcloud.gateway.configuration;
 
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
