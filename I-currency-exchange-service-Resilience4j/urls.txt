@@ -1,0 +1,13 @@
+Currency Exchange Service
+http://localhost:8000/currency-exchange/from/USD/to/INR
+
+Eureka
+http://localhost:8761/
+
+Currency Conversion Service
+Retry logic
+http://localhost:8080/currency-conversion-feign-retry/from/USD/to/INR/quantity/10
+
+Circuit Breaker
+http://localhost:8080/currency-conversion-feign-circuit-breaker/from/USD/to/INR/quantity/10
+
