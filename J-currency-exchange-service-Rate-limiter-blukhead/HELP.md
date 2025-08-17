@@ -573,13 +573,6 @@ public CompletableFuture<CurrencyConversion> convertCurrencyAsync(String from, S
 * `@TimeLimiter` only works with `Future`/`CompletionStage` because they give Resilience4j a way to cancel the task once the timeout is reached.   
 
 * Synchronous return types (`String`, `CurrencyConversion`, etc.) cannot be canceled safely, so `TimeLimiter` cannot enforce its contract there.
-
----
-
-
-Got it ✅
-Here’s a **simple, clear, point-wise explanation** of how to apply multiple **Resilience4j aspects/patterns** in a single service method:
-
 ---
 
 # Using Multiple Resilience4j Aspects in a Single Method
@@ -634,7 +627,7 @@ resilience4j.retry.retryAspectOrder=5
 
 ---
 
-✅ **Note**:
+## **Note**:
 
 * We can apply multiple aspects on one method.
 * Order matters → Resilience4j ensures they run in the right sequence.
