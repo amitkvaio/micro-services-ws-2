@@ -415,32 +415,6 @@ Here’s a **text diagram** (ASCII) since I can’t draw in Word here:
 
 ---
 
-### 3. **RateLimiter**
-
-* Controls the number of calls per second to avoid overloading a service.
-* Prevents **DoS** or sudden traffic spikes.
-
-**Example**:
-
-```java
-
-```
-
----
-
-### 4. **Bulkhead**
-
-* Limits the number of concurrent calls to a service.
-* Protects your system from being overwhelmed.
-
-**Example**:
-
-```java
-
-```
-
----
-
 ## ✅ Why Industry Uses Resilience4j
 
 * Prevents **system-wide outages** due to one bad service.

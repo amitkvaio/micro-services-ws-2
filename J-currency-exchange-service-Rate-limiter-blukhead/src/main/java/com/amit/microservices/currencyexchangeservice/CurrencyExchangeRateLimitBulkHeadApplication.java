@@ -10,5 +10,4 @@ public class CurrencyExchangeRateLimitBulkHeadApplication {
 		SpringApplication.run(CurrencyExchangeRateLimitBulkHeadApplication.class, args);
 		System.out.println("CurrencyExchangeRateLimitBulkHeadApplication has started successfully!!");
 	}
-
 }
