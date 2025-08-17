@@ -221,3 +221,18 @@ http://localhost:8003/d/call
 2025-08-17 18:23:18.787 INFO  [traceId: 68a1d0be25bfc63f3b08f51bc452d532,spanId: 934f83ae690fe38a] .DistributedTracingForServiceDController : Inside Service D
 
 ```
+
+## **From the above logs we can see**
+
+* Single Request, Multiple Services: A single user request, identified by the Trace ID 68a1d0be25bfc63f3b08f51bc452d532, traveled through four different microservices. 
+
+* The consistent Trace ID across all log lines confirms that the distributed tracing setup is working correctly.
+
+* Call Chain: The request originated in Service A, then sequentially called Service B, Service C, and finally Service D. 
+
+* This is determined by the distinct Span ID for each service, showing a parent-child relationship in the trace.
+
+    Service A started with spanId: 3b08f51bc452d532.
+    Service B received the request and processed it under spanId: a9a6b2881d7ff54e.
+    Service C continued the flow with spanId: ddba1c20662a794e.
+    Service D completed the chain with spanId: 934f83ae690fe38a.
