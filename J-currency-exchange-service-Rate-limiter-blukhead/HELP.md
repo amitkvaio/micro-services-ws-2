@@ -386,7 +386,7 @@ After execution of first 5 calls executed successfully
 The remaing 4 call has triggered and completed successfully.
 
 ```
-### 5. **Time Limiting or Timeout Handling**
+## 5. **Time Limiting or Timeout Handling**
 ---
 
 ## 🔹 What is `@TimeLimiter`?
@@ -575,3 +575,69 @@ public CompletableFuture<CurrencyConversion> convertCurrencyAsync(String from, S
 * Synchronous return types (`String`, `CurrencyConversion`, etc.) cannot be canceled safely, so `TimeLimiter` cannot enforce its contract there.
 
 ---
+
+
+Got it ✅
+Here’s a **simple, clear, point-wise explanation** of how to apply multiple **Resilience4j aspects/patterns** in a single service method:
+
+---
+
+# Using Multiple Resilience4j Aspects in a Single Method
+
+* In microservices, we often need **fault tolerance**.
+* Resilience4j allows applying **multiple patterns** (like Bulkhead, Circuit Breaker, Retry, etc.) on the same method.
+* Each pattern is applied using its own **annotation** (e.g., `@Bulkhead`, `@TimeLimiter`).
+* The **execution order** of these aspects is very important.
+* By default, Resilience4j follows a **specific order**.
+* We can also configure the **order manually** using properties.
+
+---
+
+## Default Execution Order (with reasons)
+
+1. **Bulkhead**
+
+   * First, to control the number of concurrent calls.
+   * Example: Allow only 10 requests at the same time.
+
+2. **Time Limiter**
+
+   * Second, to make sure each request finishes within a set time.
+   * Example: Fail if a request takes more than 2 seconds.
+
+3. **Rate Limiter**
+
+   * Third, to restrict the total number of calls in a given time window.
+   * Example: Allow only 100 requests per minute.
+
+4. **Circuit Breaker**
+
+   * Fourth, to stop calling a failing service for some time.
+   * Example: If 50% of last 10 requests failed, open the circuit.
+
+5. **Retry**
+
+   * Last, to automatically re-try failed requests (if allowed).
+   * Example: Retry 3 times before failing.
+
+---
+
+## Configuration Example (application.properties)
+
+```properties
+resilience4j.bulkhead.bulkheadAspectOrder=1
+resilience4j.timelimiter.timeLimiterAspectOrder=2
+resilience4j.ratelimiter.rateLimiterAspectOrder=3
+resilience4j.circuitbreaker.circuitBreakerAspectOrder=4
+resilience4j.retry.retryAspectOrder=5
+```
+
+---
+
+✅ **Note**:
+
+* We can apply multiple aspects on one method.
+* Order matters → Resilience4j ensures they run in the right sequence.
+* The above order (1 to 5) is the **best practice and default**.
+---
+ 
