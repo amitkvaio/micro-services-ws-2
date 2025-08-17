@@ -193,19 +193,34 @@ Third 1 ==> 100--> is the ending number
   2. **ThreadPool Bulkhead** → Runs calls in separate thread pool (for expensive tasks).
 ---
 
-## Properties of Bulkhead
+### Two types of Bulkhead
 
-Some common configs you can set in `application.properties`:
+1. **Semaphore Bulkhead (default)**
 
-```properties
+   * Limits the number of concurrent calls.
+   * Main property:
 
-resilience4j.bulkhead.instances.conconbulkhead.maxConcurrentCalls=5
-# Maximum 5 parallel calls allowed
+     ```properties
+     resilience4j.bulkhead.instances.conconbulkhead.maxConcurrentCalls=5
+	 # Maximum 5 parallel calls allowed
+     
+	 resilience4j.bulkhead.instances.conconbulkhead.maxWaitDuration=0
+	 # If all slots busy, wait up to 2 seconds for a free slot
+     ```
 
-resilience4j.bulkhead.instances.conconbulkhead.maxWaitDuration=2s
-# If all slots busy, wait up to 2 seconds for a free slot
-```
+     * `maxConcurrentCalls` → maximum allowed parallel calls.
+     * `maxWaitDuration` → how long a thread should wait to acquire a permit before failing. (`0` means *don’t wait, fail immediately*).
 
+2. **ThreadPoolBulkhead** (when using thread pool isolation)
+
+   * Uses a separate thread pool for handling calls.
+   * Main properties:
+
+     ```properties
+     resilience4j.thread-pool-bulkhead.instances.conconbulkhead.maxThreadPoolSize=10
+     resilience4j.thread-pool-bulkhead.instances.conconbulkhead.coreThreadPoolSize=5
+     resilience4j.thread-pool-bulkhead.instances.conconbulkhead.queueCapacity=20
+     ```
 ---
 
 ## Example Usage in Controller
@@ -371,3 +386,192 @@ After execution of first 5 calls executed successfully
 The remaing 4 call has triggered and completed successfully.
 
 ```
+### 5. **Time Limiting or Timeout Handling**
+---
+
+## 🔹 What is `@TimeLimiter`?
+
+* `@TimeLimiter` is used to set a **maximum time limit** for a method call (like an API call, DB query, or remote service).
+* If the method **does not finish within the given time**, it will be **canceled** and the **fallback method** is called (if defined).
+* It prevents long-running calls from blocking threads forever.
+
+⚠️ Note:
+
+* `@TimeLimiter` works only with methods returning **`Future`** or **`CompletionStage` (e.g., `CompletableFuture`)**.
+* It cannot directly work with synchronous methods.
+
+---
+
+### 2. Configuration (application.properties)
+
+```properties
+resilience4j.timelimiter.instances.myTimeLimiter.timeout-duration=2s
+resilience4j.timelimiter.instances.myTimeLimiter.cancel-running-future=true
+```
+
+* `timeout-duration=2s` → if execution takes more than 2 seconds, cancel it.
+* `cancel-running-future=true` → running task will be interrupted (if possible).
+
+---
+
+### 3. Service Example
+
+```java
+package com.amit.microservices.currencyexchangeservice.controller;
+
+import java.math.BigDecimal;
+import java.util.concurrent.CompletableFuture;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.amit.microservices.currencyexchangeservice.model.CurrencyConversion;
+
+import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
+
+@RestController
+public class CurrencyConversionTimeLimiterController {
+	
+	private Logger logger = LoggerFactory.getLogger(CurrencyConversionTimeLimiterController.class);
+	
+	@Autowired
+	private Environment environment;
+	
+	@GetMapping("/timelimiter")
+	public String getTimeLimiterController() {
+		logger.info("###### getTimeLimiterController call called from CurrencyConversionTimeLimiterController controller #######");
+		return "Time_Limiter_Controller";
+	}
+	
+	@GetMapping("/currency-conversion-time-limiter/from/{from}/to/{to}/quantity/{quantity}")
+	@TimeLimiter(name = "concontimelimiter", fallbackMethod = "fallbackTimeLimiterResponse")
+	public CompletableFuture<CurrencyConversion> calculateCurrencyConversionTimeLimiter(
+	        @PathVariable String from,
+	        @PathVariable String to,
+	        @PathVariable BigDecimal quantity) {
+	    
+	    return CompletableFuture.supplyAsync(() -> {
+	        try {
+	            logger.info("########## Before sleep in calculateCurrencyConversionTimeLimiter method ##########");
+	            // simulate delay
+	            Thread.sleep(5000);
+	            logger.info("########## After sleep in calculateCurrencyConversionTimeLimiter method ##########");
+	            String port = environment.getProperty("local.server.port")
+	                    + "_Returning_Hard_Coded_Values_For_Time_Limiter";
+
+	            // create object
+	            CurrencyConversion conversion1 = new CurrencyConversion(
+	                    1001L,
+	                    "USD",
+	                    "INR",
+	                    BigDecimal.valueOf(10),
+	                    BigDecimal.valueOf(82),   // conversion rate
+	                    BigDecimal.valueOf(820),  // total = 10 * 82
+	                    port
+	            );
+	            return conversion1;
+	        } catch (InterruptedException e) {
+	            throw new RuntimeException(e);
+	        }
+	    });
+	}
+
+	
+	// Fallback method (must have same parameters as original + Exception as last arg)
+	public CompletableFuture<CurrencyConversion> fallbackTimeLimiterResponse(
+	        String from,
+	        String to,
+	        BigDecimal quantity,
+	        Throwable ex) {
+
+	    logger.info("####### Fallback mehtod has triggered of class CurrencyConversionTimeLimiterController due to: " + ex.getMessage());
+
+	    CurrencyConversion fallbackResponse = new CurrencyConversion(
+	            1010L,  // dummy id
+	            from,
+	            to,
+	            quantity,
+	            BigDecimal.valueOf(65),  // default conversion rate
+	            BigDecimal.valueOf(65).multiply(quantity), // total amount
+	            "Fallback response: ohh! Sorry!! Looks like there are some technical problems. Please try again later. Error: Retry :" + ex.getMessage()
+	    );
+	    // wrap inside CompletableFuture
+	    return CompletableFuture.completedFuture(fallbackResponse);
+	}
+}
+
+```
+
+---
+
+## 🔹 Flow
+
+1. Call `/timelimiter` → Service tries to sleep **5 sec**.
+2. `@TimeLimiter` allows max **2 sec** → request will **timeout**.
+3. `fallbackMethod()` is called → returns **"Request timed out, fallback called!"**.
+---
+
+## **URL**
+```
+http://localhost:8000/timelimiter  
+http://localhost:8000/currency-conversion-time-limiter/from/USD/to/INR/quantity/10
+```
+## **Response**
+```
+2025-08-17T14:50:41.581+05:30  INFO 12948 --- [currency-exchange-service-Rate-limit-bulkhead] [onPool-worker-1] .CurrencyConversionTimeLimiterController : ########## Before sleep in calculateCurrencyConversionTimeLimiter method ##########
+2025-08-17T14:50:43.583+05:30  INFO 12948 --- [currency-exchange-service-Rate-limit-bulkhead] [ool-10-thread-1] .CurrencyConversionTimeLimiterController : ####### Fallback mehtod has triggered of class CurrencyConversionTimeLimiterController due to: TimeLimiter 'concontimelimiter' recorded a timeout exception.
+2025-08-17T14:50:46.594+05:30  INFO 12948 --- [currency-exchange-service-Rate-limit-bulkhead] [onPool-worker-1] .CurrencyConversionTimeLimiterController : ########## After sleep in calculateCurrencyConversionTimeLimiter method ##########
+
+```
+---
+
+### 🔹 Why `@TimeLimiter` needs `Future` / `CompletionStage` / `CompletableFuture`
+
+1. **Time-limiting means cancellation**
+
+   * A `TimeLimiter` sets a max time a method is allowed to run.
+   * If it takes longer, Resilience4j must **cancel the execution**.
+   * But in Java, you can only *cancel* tasks that run asynchronously (like `Future.cancel(true)`), not normal synchronous methods.
+
+2. **Synchronous methods can’t be interrupted safely**
+
+   * If we method is a plain function returning an object (`CurrencyConversion`), and it hangs (say waiting on DB call), there’s **no safe way to stop it**.
+   * Java doesn’t let libraries "kill" threads directly — only interrupt tasks that support interruption.
+
+3. **Future/CompletableFuture/CompletionStage support interruption**
+
+   * With async return types, Resilience4j wraps the call in a `ScheduledExecutorService`.
+   * If the timeout expires, it can cancel the `Future`.
+   * The caller immediately gets a `TimeoutException`, and your **fallback method** can be triggered.
+
+---
+
+### 🔹 Example
+
+```java
+@TimeLimiter(name = "currencyConversion", fallbackMethod = "fallbackTimeLimiterResponse")
+public CompletableFuture<CurrencyConversion> convertCurrencyAsync(String from, String to, BigDecimal quantity) {
+    return CompletableFuture.supplyAsync(() -> {
+        // Simulate long running call
+        try { Thread.sleep(5000); } catch (InterruptedException e) { }
+        return new CurrencyConversion(...);
+    });
+}
+```
+
+* If timeout = 2s → after 2s, `TimeLimiter` cancels the future.
+* The main thread doesn’t block forever, it just returns fallback.
+
+---
+
+✅ **Note:**
+* `@TimeLimiter` only works with `Future`/`CompletionStage` because they give Resilience4j a way to cancel the task once the timeout is reached.   
+
+* Synchronous return types (`String`, `CurrencyConversion`, etc.) cannot be canceled safely, so `TimeLimiter` cannot enforce its contract there.
+
+---
