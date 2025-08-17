@@ -29,14 +29,15 @@ public class CurrencyConversionBulkHeadController {
 	}
 	
 	@GetMapping("/currency-conversion-bulk-head/from/{from}/to/{to}/quantity/{quantity}")
-	@Bulkhead(name = "currencyConversionBulkHeadService", type = Bulkhead.Type.SEMAPHORE, fallbackMethod = "fallbackCurrencyExchangeResponse")
+	@Bulkhead(name = "conconbulkhead", type = Bulkhead.Type.SEMAPHORE, fallbackMethod = "fallbackBulkHeadResponse")
 	public CurrencyConversion calculateCurrencyConversionBulkHead(
 			@PathVariable String from, 
 			@PathVariable String to,
-			@PathVariable BigDecimal quantity) {
+			@PathVariable BigDecimal quantity) throws InterruptedException {
 		
-		logger.info("########## called from calculateCurrencyConversionBulkHead funtion from CurrencyConversionBulkHeadController class ################");
-		
+		logger.info("##########Befor sleep called from calculateCurrencyConversionBulkHead funtion from CurrencyConversionBulkHeadController class ################");
+		Thread.sleep(5000);
+		logger.info("##########After sleep called from calculateCurrencyConversionBulkHead funtion from CurrencyConversionBulkHeadController class ################");
 		String port = environment.getProperty("local.server.port") + "_Returning_Hard_Coded_Values_For_BulkHead";
 		
 		CurrencyConversion conversion1 = new CurrencyConversion(
@@ -52,7 +53,7 @@ public class CurrencyConversionBulkHeadController {
 	}
 	
 	// Fallback method (must have same parameters as original + Exception as last arg)
-	public CurrencyConversion fallbackCurrencyExchangeResponse(
+	public CurrencyConversion fallbackBulkHeadResponse(
 	        String from,
 	        String to,
 	        BigDecimal quantity,

@@ -36,8 +36,6 @@ public class CurrencyConversionRateLimiterController {
 			@PathVariable BigDecimal quantity) throws InterruptedException {
 		
 		logger.info("########## called from calculateCurrencyConversionRateLimiter funtion from CurrencyConversionRateLimiterController class ################");
-		Thread.sleep(10000);
-		logger.info("########## after sleep from calculateCurrencyConversionRateLimiter funtion from CurrencyConversionRateLimiterController class ################");
 		
 		String port = environment.getProperty("local.server.port") + "_Returning_Hard_Coded_Values_For_Rate_Limiter";
 		
