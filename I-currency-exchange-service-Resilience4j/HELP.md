@@ -8,9 +8,9 @@
 </dependency>
 ```
 
-This adds **Resilience4j** support in your Spring Boot app.
+This adds **Resilience4j** support in our Spring Boot app.  
 Resilience4j is a **fault-tolerance library**.  
- – it helps your app stay stable and reliable when calling other services or APIs.
+ – it helps our app stay stable and reliable when calling other services or APIs.
 
 ---
 
@@ -18,7 +18,7 @@ Resilience4j is a **fault-tolerance library**.
 
 We use it in **microservices or distributed systems** where one service depends on another.
 
-* If the dependent service is **slow**, **down**, or **returns errors**, instead of your whole system failing, Resilience4j helps:
+* If the dependent service is **slow**, **down**, or **returns errors**, instead of our whole system failing, Resilience4j helps:
 
   * Control failures
   * Retry automatically
@@ -27,7 +27,7 @@ We use it in **microservices or distributed systems** where one service depends 
 
 **Scenario Example**:
 
-* Your **Order Service** calls a **Payment Service**.
+* Our **Order Service** calls a **Payment Service**.
 * If the payment service is down or too slow:
 
   * Without Resilience4j → Order Service also hangs or crashes.
@@ -69,7 +69,7 @@ public class Resilience4jRetryController {
 	private com.amit.microservices.currencyexchangeservice.proxy.CurrencyExchangeProxy proxy;
 	
 	@GetMapping("/currency-conversion-feign-retry/from/{from}/to/{to}/quantity/{quantity}")
-        @Retry(name = "currencyConversionService", fallbackMethod = "fallbackCurrencyExchangeResponse")
+    @Retry(name = "currencyConversionService", fallbackMethod = "fallbackCurrencyExchangeResponse")
 	public CurrencyConversion calculateCurrencyConversionFeign(
 			@PathVariable String from, 
 			@PathVariable String to,
@@ -111,10 +111,10 @@ public class Resilience4jRetryController {
 
 ### **Rules to Remember while writing the fallback method**
 
-1. **Method name** must match the one you gave in `fallbackMethod`.
+1. **Method name** must match the one we gave in `fallbackMethod`.
 2. **Parameters** must be identical to the original method + optionally `Throwable`.
 3. **Return type** must be the same as the original method .
-4. Place the fallback method in the **same class** (unless you configure otherwise).
+4. Place the fallback method in the **same class** (unless we configure otherwise).
 
 ```properties
 resilience4j.retry.instances.currencyConversionService.maxAttempts=3
@@ -244,7 +244,7 @@ public class Resilience4jCircuitBreakerController {
 
 ## Main Purpose of Circuit Breaker
 
-1. Protects your application from repeatedly calling a **failing service**.
+1. Protects our application from repeatedly calling a **failing service**.
 2. Improves **resilience and stability**.
 3. Allows services to **recover gracefully**.
 
@@ -305,7 +305,7 @@ resilience4j.circuitbreaker.instances.currencyConversionServiceWithCircuitBreake
 
 ---
 
-#### **Full Flow with Your Config**
+#### **Full Flow with our Config**
 
 1. Circuit Breaker watches last **5 calls**.
 2. If **3 out of 5 fail (≥50%)**, it **opens**.
@@ -323,7 +323,7 @@ resilience4j.circuitbreaker.instances.currencyConversionServiceWithCircuitBreake
 
 ---
 
-## 🔌 Circuit Breaker States
+## Circuit Breaker States
 The **Circuit Breaker** in Resilience4j has **3 main states.**
 ### 1. **Closed** (Normal State)
 
@@ -362,12 +362,12 @@ The **Circuit Breaker** in Resilience4j has **3 main states.**
 
 ### 4. (Optional) **Disabled / Forced-Open**
 
-* Sometimes you can manually disable the circuit breaker or force it to stay open.
+* Sometimes we can manually disable the circuit breaker or force it to stay open.
 * Rarely used in real cases.
 
 ---
 
-## 🖼️ Circuit Breaker State Transition Diagram
+## Circuit Breaker State Transition Diagram
 
 Here’s a **text diagram** (ASCII) since I can’t draw in Word here:
 
@@ -401,13 +401,13 @@ Here’s a **text diagram** (ASCII) since I can’t draw in Word here:
 
 ---
 
-## ✅ Summary (Easy to Remember)
+## Summary (Easy to Remember)
 
 * **Closed** → All good (monitor failures).
 * **Open** → Service failing → stop calls, fallback immediately.
 * **Half-Open** → Test few calls to check recovery.
 
-👉 Real life analogy:
+**Real life analogy:**
 
 * Closed = Normal traffic light is green.
 * Open = Light turns red (stop all traffic).
@@ -415,7 +415,7 @@ Here’s a **text diagram** (ASCII) since I can’t draw in Word here:
 
 ---
 
-## ✅ Why Industry Uses Resilience4j
+## Why Industry Uses Resilience4j
 
 * Prevents **system-wide outages** due to one bad service.
 * Improves **user experience** by giving fallback responses.

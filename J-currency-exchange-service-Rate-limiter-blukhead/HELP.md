@@ -1,11 +1,11 @@
  
-### 3. **RateLimiter**
+## 3. **RateLimiter**
 
 * Controls the number of calls per second to avoid overloading a service.
 
 ---
 
-## 🚦 What is RateLimiter in Resilience4j?
+## What is RateLimiter in Resilience4j?
 
 * **RateLimiter** is used to **limit the number of calls** to a service within a given time.
 * It helps **protect a service from overload** when too many requests come at once.
@@ -13,9 +13,9 @@
 
 ---
 
-## ⚙️ How it Works
+## How it Works
 
-* You set:
+* We set:
 
   1. **limitForPeriod** → How many requests allowed per refresh period.
   2. **limitRefreshPeriod** → How often the rate limit resets.
@@ -43,7 +43,7 @@ timeoutDuration=2s ==> If no slot frees up in 2 seconds, the request is rejected
 ```
 ---
 
-## ✅ Example Usage in Controller
+## Example Usage in Controller
 
 ```java
  package com.amit.microservices.currencyexchangeservice.controller;
@@ -128,7 +128,7 @@ public class CurrencyConversionRateLimiterController {
 
 ## Real-World Example
 
-Imagine you have a **currency conversion API** that can only handle **5 requests every 10 seconds**.
+Imagine we have a **currency conversion API** that can only handle **5 requests every 10 seconds**.
 
 * If **6th request** comes within 10 seconds → it will be **blocked** and fallback response is returned.
 * This prevents **server overload** and ensures **fair usage**.
@@ -177,14 +177,14 @@ Third 1 ==> 100--> is the ending number
 >Within 10 second making more then 5 api call (Here making 10 api call).  
 6th, 7th.. call it has wait for approx 2 seconds then it has called fallback method as shown from the above log.
 
-### 4. **Bulkhead**
+## 4. **Bulkhead**
 
 * Limits the number of concurrent calls to a service.
 ---
 
 ## What is @Bulkhead?
 
-* **Bulkhead** is a design pattern (borrowed from ship compartments 🛳️).
+* **Bulkhead** is a design pattern.
 * It **limits the number of concurrent calls** to a method/service.
 * Helps **isolate failures** so one overloaded service doesn’t sink the whole system.
 * In Resilience4j, Bulkhead works in **two modes**:
@@ -310,7 +310,7 @@ Think of a **restaurant with 5 tables** 🍽️
 
 * Only **5 customers** can sit (concurrent calls).
 * If a **6th customer arrives**, they must **wait** (maxWaitDuration) or leave (fallback).
-* This prevents the kitchen (your service) from being overloaded.
+* This prevents the kitchen (our service) from being overloaded.
 
 ---
 
@@ -395,7 +395,7 @@ The remaing 4 call has triggered and completed successfully.
 * If the method **does not finish within the given time**, it will be **canceled** and the **fallback method** is called (if defined).
 * It prevents long-running calls from blocking threads forever.
 
-⚠️ Note:
+**Note:**
 
 * `@TimeLimiter` works only with methods returning **`Future`** or **`CompletionStage` (e.g., `CompletableFuture`)**.
 * It cannot directly work with synchronous methods.
@@ -536,7 +536,7 @@ http://localhost:8000/currency-conversion-time-limiter/from/USD/to/INR/quantity/
 
    * A `TimeLimiter` sets a max time a method is allowed to run.
    * If it takes longer, Resilience4j must **cancel the execution**.
-   * But in Java, you can only *cancel* tasks that run asynchronously (like `Future.cancel(true)`), not normal synchronous methods.
+   * But in Java, we can only *cancel* tasks that run asynchronously (like `Future.cancel(true)`), not normal synchronous methods.
 
 2. **Synchronous methods can’t be interrupted safely**
 
@@ -547,7 +547,7 @@ http://localhost:8000/currency-conversion-time-limiter/from/USD/to/INR/quantity/
 
    * With async return types, Resilience4j wraps the call in a `ScheduledExecutorService`.
    * If the timeout expires, it can cancel the `Future`.
-   * The caller immediately gets a `TimeoutException`, and your **fallback method** can be triggered.
+   * The caller immediately gets a `TimeoutException`, and our **fallback method** can be triggered.
 
 ---
 
@@ -569,7 +569,7 @@ public CompletableFuture<CurrencyConversion> convertCurrencyAsync(String from, S
 
 ---
 
-✅ **Note:**
+**Note:**
 * `@TimeLimiter` only works with `Future`/`CompletionStage` because they give Resilience4j a way to cancel the task once the timeout is reached.   
 
 * Synchronous return types (`String`, `CurrencyConversion`, etc.) cannot be canceled safely, so `TimeLimiter` cannot enforce its contract there.

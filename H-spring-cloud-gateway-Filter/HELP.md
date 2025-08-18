@@ -1,26 +1,26 @@
-## 🌍 What is `GlobalFilter`?
+## What is `GlobalFilter`?
 
 * `GlobalFilter` is an **interface** in Spring Cloud Gateway.
 * It allows us to apply **logic on every request** that passes through the API Gateway.
 * It is like a **cross-cutting filter** which affects all routes, not just one.
 
-👉 Think of it like a **security guard at the main gate**: everyone entering (request) or leaving (response) is checked.
+Think of it like a **security guard at the main gate**: everyone entering (request) or leaving (response) is checked.
 
 ---
 
-## ⏰ When does it execute?
+## When does it execute?
 
 * A `GlobalFilter` executes **for each request** that comes to the API Gateway.
 * It runs **before** the request is sent to the backend service (**pre-filter**) and/or
 * It can also run **after** the response comes back from the backend (**post-filter**).
 
-👉 Order of execution depends on the `getOrder()` method you define.
+Order of execution depends on the `getOrder()` method we define.
 
 ---
 
-## ✅ What can I achieve using `GlobalFilter`?
+## What can I achieve using `GlobalFilter`?
 
-You can implement many **cross-cutting concerns** using `GlobalFilter`, such as:
+We can implement many **cross-cutting concerns** using `GlobalFilter`, such as:
 
 1. **Authentication & Authorization**
 
@@ -54,7 +54,7 @@ You can implement many **cross-cutting concerns** using `GlobalFilter`, such as:
 
 ---
 
-## 🔎 Example use case
+## Example use case
 
 ```java
 package com.springcloud.gateway.filter;

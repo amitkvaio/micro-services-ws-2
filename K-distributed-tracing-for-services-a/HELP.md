@@ -1,7 +1,7 @@
 
 ---
 
-# 📌 What is Distributed Tracing?
+# What is Distributed Tracing?
 
 * In **microservices architecture**, a single request from the client may travel through multiple services.
 * Example:
@@ -12,7 +12,7 @@
 
 ---
 
-# 📌 What is Sleuth?
+# What is Sleuth?
 
 * **Spring Cloud Sleuth** automatically adds unique IDs (Trace ID, Span ID) to logs.
 * Every log line is tagged with these IDs.
@@ -24,15 +24,15 @@
 
 ---
 
-# 📌 What is Zipkin?
+# What is Zipkin?
 
 * **Zipkin** is a distributed tracing system.
 * It collects trace data from microservices and shows it in a **web UI**.
-* With Zipkin you can **visualize the request flow** between microservices.
+* With Zipkin we can **visualize the request flow** between microservices.
 
 ---
 
-# 📌 How Sleuth + Zipkin Work Together
+# How Sleuth + Zipkin Work Together
 
 1. **Sleuth** adds trace IDs to logs and sends trace data.
 2. **Zipkin** collects this data and provides visualization.
@@ -40,7 +40,7 @@
 ---
 ## **Deprecated**
 
-Since Spring Boot 3.x (and Spring Cloud 2022+), spring-cloud-sleuth is deprecated.
+Since Spring Boot 3.x (and Spring Cloud 2022+), spring-cloud-sleuth is deprecated.  
 Now tracing is handled using **Micrometer Tracing + Brave bridge + Zipkin Reporter**.
 
 ## **Dependencies Requied / Add these dependencies in all the microservices.**
@@ -128,7 +128,7 @@ logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [traceId: %X{traceId},s
 
 # %d{yyyy-MM-dd HH:mm:ss.SSS}: Prints the date and time.
 # %-5p: Prints the log level (e.g., INFO, ERROR).
-# [traceId: %X{traceId},spanId: %X{spanId}]: This is where you explicitly insert the Trace ID and Span ID from the MDC.
+# [traceId: %X{traceId},spanId: %X{spanId}]: This is where we explicitly insert the Trace ID and Span ID from the MDC.
 # %-40.40c{1.}: Prints the logger's name, padded to 40 characters.
 # %m%n: Prints the log message and a new line.
 ```
@@ -195,7 +195,7 @@ public class RestTemplateConfig {
     }
 }
 ```
-#### **Similarly Devlope the Micro-services B,C,D Where**
+#### **Similarly Devlope the Micro-services B, C, D Where**
 ```
  Micro-services A calling > 
     Micro-services B > 

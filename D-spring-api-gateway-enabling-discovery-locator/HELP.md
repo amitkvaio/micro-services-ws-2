@@ -140,7 +140,7 @@
     ```
     GET /CURRENCY-EXCHANGE/** → forwards to lb://CURRENCY-EXCHANGE
     ```
-  * You can directly call:
+  * We can directly call:
 
     ```
     http://localhost:8765/CURRENCY-EXCHANGE/currency-exchange/from/USD/to/INR
@@ -151,7 +151,7 @@
 ### **When `false`** ❌
 
 * Gateway **will not** auto-create routes from service discovery.
-* You must **manually define** every route in:
+* We must **manually define** every route in:
 
   * `application.properties` using `spring.cloud.gateway.routes`
   * or in Java config using `RouteLocatorBuilder`.
@@ -168,13 +168,13 @@
 
 | Setting Value | Behavior                                               | Use Case                                                                      |
 | ------------- | ------------------------------------------------------ | ----------------------------------------------------------------------------- |
-| `true`        | Auto-discovers services and builds routes dynamically. | When you want minimal manual config and dynamic service routing.              |
-| `false`       | No auto-discovery, routes must be manually added.      | When you want **full control** over routes and prevent exposing all services. |
+| `true`        | Auto-discovers services and builds routes dynamically. | When we want minimal manual config and dynamic service routing.              |
+| `false`       | No auto-discovery, routes must be manually added.      | When we want **full control** over routes and prevent exposing all services. |
 
 ---
 
 **Note:**
-Even if `true`, you can customize route naming and filtering using:
+Even if `true`, we can customize route naming and filtering using:
 
 ```properties
 spring.cloud.gateway.discovery.locator.lower-case-service-id=true

@@ -16,7 +16,7 @@
 
 ---
 
-### **When set to true ✅**
+### **When set to true**
 
 * The service IDs in routes are converted to **lowercase**.
 * This makes URLs **cleaner** and easier to use (since URLs are usually lowercase).

@@ -14,7 +14,7 @@ public RouteLocator gatewayRouter(RouteLocatorBuilder builder) {
 * `p.path("/get")` → Any incoming HTTP request with path `/get` will be matched.
 * `.uri("http://httpbin.org:80")` → The request will be forwarded to **httpbin.org** (a public test service).
 
-When we call your gateway (e.g., `http://localhost:8765/get`), it internally makes a request to **[http://httpbin.org:80/get](http://httpbin.org:80/get)**.
+When we call our gateway (e.g., `http://localhost:8765/get`), it internally makes a request to **[http://httpbin.org:80/get](http://httpbin.org:80/get)**.
 
 ---
 
@@ -52,12 +52,12 @@ Response might look like:
 ### 🔹 Use Case in our Code
 
 * This URI (`http://httpbin.org:80`) is used only for **demo or testing**.
-* It helps verify that **routing is working** correctly in your API Gateway.
+* It helps verify that **routing is working** correctly in our API Gateway.
 
 ---
 
 ## **Note**
-The `http://httpbin.org:80` URI is not a real microservice of yours. It’s a **public test server**.
+The `http://httpbin.org:80` URI is not a real microservice of ours. It’s a **public test server**.  
 It is used in Spring Cloud Gateway examples to test that routes are working properly before connecting to real microservices.
 
 ---
@@ -75,13 +75,8 @@ return builder.routes()
 
 ```
 ---
-Perfect 👍 now you are looking at **filters in Spring Cloud Gateway**.
 
-Let’s break it down step by step.
-
----
-
-### 🔹 Your code
+### 🔹 Our code
 
 ```java
 @Bean
@@ -142,7 +137,7 @@ MyHeader: MyURI
 
 ---
 
-#### What you will see in the response (from `httpbin.org`):
+#### What we will see in the response (from `httpbin.org`):
 
 ```json
 {
@@ -235,7 +230,7 @@ http://localhost:8765/currency-conversion-new/from/USD/to/INR
   lb://currency-conversion/currency-conversion-feign/from/USD/to/INR
   ```
 
-👉 The **currency-conversion service** actually receives the request as:
+The **currency-conversion service** actually receives the request as:
 
 ```
 http://currency-conversion/currency-conversion-feign/from/USD/to/INR
@@ -255,7 +250,7 @@ http://currency-conversion/currency-conversion-feign/from/USD/to/INR
 
 1. **Backward compatibility**
 
-   * Old clients call `/currency-conversion-new/**`, but your new microservice expects `/currency-conversion-feign/**`.
+   * Old clients call `/currency-conversion-new/**`, but our new microservice expects `/currency-conversion-feign/**`.
    * Instead of breaking clients, rewrite the path.
 
 2. **Hiding internal paths**
@@ -276,8 +271,9 @@ http://currency-conversion/currency-conversion-feign/from/USD/to/INR
 ---
 
 ## **Note**
-`f.rewritePath` changes the **incoming URL path** before sending it to the backend service.
-It’s useful when you want clients to use **simple or old paths**, but your backend microservice expects a **different path**.
+`f.rewritePath` changes the **incoming URL path** before sending it to the backend service.  
+It’s useful when we ou want clients to use **simple or old paths**, but
+our backend microservice expects a **different path**.
 
 ---
 ## **URL**  

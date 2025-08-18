@@ -24,9 +24,9 @@ public class SpringCloudGatewayRouting {
     }
 }
 ```
-**@Configuration** → Marks this as a Spring configuration class.
-**@Bean** → This method creates and returns a RouteLocator object.
-**RouteLocator** → Defines the routing rules for the gateway.
+**@Configuration** → Marks this as a Spring configuration class.  
+**@Bean** → This method creates and returns a RouteLocator object.  
+**RouteLocator** → Defines the routing rules for the gateway.  
 
 1. **Incoming request**
 
