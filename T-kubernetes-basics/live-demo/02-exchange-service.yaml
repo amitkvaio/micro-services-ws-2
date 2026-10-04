@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exchange-service
+  namespace: microservices-live-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exchange-service
+  template:
+    metadata:
+      labels:
+        app: exchange-service
+    spec:
+      containers:
+        - name: exchange-service
+          image: hashicorp/http-echo:1.0
+          args:
+            - "-listen=:8000"
+            - "-text={\"service\":\"exchange-service\",\"message\":\"Hello from Kubernetes exchange service\"}"
+          ports:
+            - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: exchange-service
+  namespace: microservices-live-demo
+spec:
+  selector:
+    app: exchange-service
+  ports:
+    - port: 8000
+      targetPort: 8000

@@ -1,0 +1,16 @@
+{ "index": { "_index": "microservices-logs-demo" } }
+{ "@timestamp": "2026-10-04T10:15:01.100Z", "serviceName": "distributed-tracing-service-a", "environment": "local", "level": "INFO", "traceId": "trace-2026-elk-demo-001", "spanId": "a1", "httpMethod": "GET", "endpoint": "/a/call", "status": 200, "durationMs": 12, "message": "Received request at Service A" }
+{ "index": { "_index": "microservices-logs-demo" } }
+{ "@timestamp": "2026-10-04T10:15:01.220Z", "serviceName": "distributed-tracing-service-b", "environment": "local", "level": "INFO", "traceId": "trace-2026-elk-demo-001", "spanId": "b1", "httpMethod": "GET", "endpoint": "/b/call", "status": 200, "durationMs": 18, "message": "Service B called from Service A" }
+{ "index": { "_index": "microservices-logs-demo" } }
+{ "@timestamp": "2026-10-04T10:15:01.390Z", "serviceName": "distributed-tracing-service-c", "environment": "local", "level": "INFO", "traceId": "trace-2026-elk-demo-001", "spanId": "c1", "httpMethod": "GET", "endpoint": "/c/call", "status": 200, "durationMs": 21, "message": "Service C processed the request" }
+{ "index": { "_index": "microservices-logs-demo" } }
+{ "@timestamp": "2026-10-04T10:15:01.560Z", "serviceName": "distributed-tracing-service-d", "environment": "local", "level": "INFO", "traceId": "trace-2026-elk-demo-001", "spanId": "d1", "httpMethod": "GET", "endpoint": "/d/call", "status": 200, "durationMs": 9, "message": "Service D returned the final response" }
+{ "index": { "_index": "microservices-logs-demo" } }
+{ "@timestamp": "2026-10-04T10:20:11.050Z", "serviceName": "api-gateway", "environment": "local", "level": "INFO", "traceId": "trace-2026-elk-demo-002", "spanId": "gw1", "httpMethod": "GET", "endpoint": "/currency-conversion/from/USD/to/INR/quantity/10", "status": 200, "durationMs": 7, "message": "Gateway routed request to currency conversion service" }
+{ "index": { "_index": "microservices-logs-demo" } }
+{ "@timestamp": "2026-10-04T10:20:11.150Z", "serviceName": "currency-conversion-service", "environment": "local", "level": "INFO", "traceId": "trace-2026-elk-demo-002", "spanId": "cc1", "httpMethod": "GET", "endpoint": "/currency-conversion/from/USD/to/INR/quantity/10", "status": 200, "durationMs": 30, "message": "Currency conversion service requested exchange value" }
+{ "index": { "_index": "microservices-logs-demo" } }
+{ "@timestamp": "2026-10-04T10:20:11.240Z", "serviceName": "currency-exchange-service", "environment": "local", "level": "ERROR", "traceId": "trace-2026-elk-demo-002", "spanId": "ex1", "httpMethod": "GET", "endpoint": "/currency-exchange/from/USD/to/INR", "status": 500, "durationMs": 45, "message": "Database timeout while reading exchange value" }
+{ "index": { "_index": "microservices-logs-demo" } }
+{ "@timestamp": "2026-10-04T10:20:11.300Z", "serviceName": "currency-conversion-service", "environment": "local", "level": "WARN", "traceId": "trace-2026-elk-demo-002", "spanId": "cc2", "httpMethod": "GET", "endpoint": "/currency-conversion/from/USD/to/INR/quantity/10", "status": 503, "durationMs": 62, "message": "Fallback response returned because exchange service failed" }

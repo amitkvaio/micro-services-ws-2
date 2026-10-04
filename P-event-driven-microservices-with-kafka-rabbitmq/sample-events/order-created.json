@@ -1,0 +1,10 @@
+{
+  "eventId": "evt-1001",
+  "eventType": "OrderCreated",
+  "traceId": "trace-order-1001",
+  "orderId": "ORD-1001",
+  "customerId": "CUST-501",
+  "amount": 2500.0,
+  "currency": "INR",
+  "createdAt": "2026-10-04T10:30:00Z"
+}

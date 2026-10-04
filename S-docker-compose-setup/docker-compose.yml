@@ -1,0 +1,67 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: microservices-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: currency_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  naming-server:
+    build:
+      context: ../A-naming-server
+      dockerfile: ../R-dockerize-each-service/Dockerfile.spring-boot-template
+    container_name: naming-server
+    ports:
+      - "8761:8761"
+    environment:
+      SERVER_PORT: 8761
+
+  currency-exchange-service:
+    build:
+      context: ../B-currency-exchange-service
+      dockerfile: ../R-dockerize-each-service/Dockerfile.spring-boot-template
+    container_name: currency-exchange-service
+    ports:
+      - "8000:8000"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/currency_db
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    depends_on:
+      - mysql
+      - naming-server
+
+  currency-conversion-service:
+    build:
+      context: ../C-currency-conversion-service
+      dockerfile: ../R-dockerize-each-service/Dockerfile.spring-boot-template
+    container_name: currency-conversion-service
+    ports:
+      - "8100:8100"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
+    depends_on:
+      - naming-server
+      - currency-exchange-service
+
+  api-gateway:
+    build:
+      context: ../F-spring-api-gateway-With-Routes
+      dockerfile: ../R-dockerize-each-service/Dockerfile.spring-boot-template
+    container_name: api-gateway
+    ports:
+      - "8765:8765"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://naming-server:8761/eureka
+    depends_on:
+      - naming-server
+      - currency-exchange-service
+      - currency-conversion-service
+
+volumes:
+  mysql-data:

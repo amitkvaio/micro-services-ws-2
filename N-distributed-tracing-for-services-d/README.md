@@ -81,7 +81,10 @@ http://localhost:8003/d/call
 In this chapter, Service D completed the distributed tracing flow.
 Together, chapters K to N solve the problem of tracking one request across multiple services.
 
-**Practice task:** Add one more downstream service or introduce a controlled failure, then verify the trace in Zipkin.
+Next chapter: [Centralized Logging With ELK/OpenSearch](../O-Centralized-loggin-with-ELK-open-search/README.md).
+It solves the next problem: searching logs from all services in one UI.
+
+**Practice task:** Add one more downstream service or introduce a controlled failure, then verify the trace in Zipkin and search the related logs in OpenSearch.
 
 
 ## Interview Questions And Answers

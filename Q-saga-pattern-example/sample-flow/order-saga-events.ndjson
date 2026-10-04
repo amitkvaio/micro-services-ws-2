@@ -1,0 +1,9 @@
+{ "sagaId": "saga-order-1001", "eventType": "OrderCreated", "serviceName": "order-service", "orderId": "ORD-1001", "status": "PENDING", "message": "Order created successfully" }
+{ "sagaId": "saga-order-1001", "eventType": "PaymentCompleted", "serviceName": "payment-service", "orderId": "ORD-1001", "status": "PAID", "message": "Payment completed" }
+{ "sagaId": "saga-order-1001", "eventType": "InventoryReserved", "serviceName": "inventory-service", "orderId": "ORD-1001", "status": "RESERVED", "message": "Inventory reserved" }
+{ "sagaId": "saga-order-1001", "eventType": "OrderConfirmed", "serviceName": "order-service", "orderId": "ORD-1001", "status": "CONFIRMED", "message": "Order confirmed" }
+{ "sagaId": "saga-order-1002", "eventType": "OrderCreated", "serviceName": "order-service", "orderId": "ORD-1002", "status": "PENDING", "message": "Order created successfully" }
+{ "sagaId": "saga-order-1002", "eventType": "PaymentCompleted", "serviceName": "payment-service", "orderId": "ORD-1002", "status": "PAID", "message": "Payment completed" }
+{ "sagaId": "saga-order-1002", "eventType": "InventoryFailed", "serviceName": "inventory-service", "orderId": "ORD-1002", "status": "FAILED", "message": "Inventory not available" }
+{ "sagaId": "saga-order-1002", "eventType": "PaymentRefunded", "serviceName": "payment-service", "orderId": "ORD-1002", "status": "REFUNDED", "message": "Payment refunded because inventory failed" }
+{ "sagaId": "saga-order-1002", "eventType": "OrderCancelled", "serviceName": "order-service", "orderId": "ORD-1002", "status": "CANCELLED", "message": "Order cancelled after compensation" }

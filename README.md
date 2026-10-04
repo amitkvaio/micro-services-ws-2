@@ -31,6 +31,12 @@ This workspace uses the **Balanced** README style:
 | L | [`L-distributed-tracing-for-services-b`](L-distributed-tracing-for-services-b/README.md) | How tracing continues through Service B. |
 | M | [`M-distributed-tracing-for-services-c`](M-distributed-tracing-for-services-c/README.md) | How tracing continues through Service C. |
 | N | [`N-distributed-tracing-for-services-d`](N-distributed-tracing-for-services-d/README.md) | How tracing ends at Service D and appears in Zipkin. |
+| O | [`O-Centralized-loggin-with-ELK-open-search`](O-Centralized-loggin-with-ELK-open-search/README.md) | How to search logs from all services in one OpenSearch Dashboards UI. |
+| P | [`P-event-driven-microservices-with-kafka-rabbitmq`](P-event-driven-microservices-with-kafka-rabbitmq/README.md) | How services communicate asynchronously using Kafka or RabbitMQ. |
+| Q | [`Q-saga-pattern-example`](Q-saga-pattern-example/README.md) | How to handle distributed transactions safely using Saga. |
+| R | [`R-dockerize-each-service`](R-dockerize-each-service/README.md) | How to package each microservice as a Docker container. |
+| S | [`S-docker-compose-setup`](S-docker-compose-setup/README.md) | How to start Eureka, Gateway, DB, and services with one command. |
+| T | [`T-kubernetes-basics`](T-kubernetes-basics/README.md) | How to deploy microservices locally using Minikube or kind. |
 
 ## Recommended Learning Order
 
@@ -59,6 +65,10 @@ This workspace covers commonly asked topics:
 - Spring Cloud Gateway routing and filters.
 - Resilience4j retry, circuit breaker, rate limiter, bulkhead, and time limiter.
 - Distributed tracing using Micrometer Tracing and Zipkin.
+- Centralized logging using OpenSearch and OpenSearch Dashboards.
+- Event-driven communication using Kafka or RabbitMQ.
+- Saga pattern for distributed transactions.
+- Docker, Docker Compose, and Kubernetes basics.
 
 ## Key Concepts
 
@@ -75,6 +85,16 @@ This workspace covers commonly asked topics:
 | **Bulkhead** | Limits parallel calls to protect resources. |
 | **Trace ID** | One id used to track a request across services. |
 | **Span ID** | One id used to track a single operation inside a trace. |
+| **Centralized Logging** | Collecting logs from many services into one searchable place. |
+| **OpenSearch** | Stores and indexes logs for fast search. |
+| **OpenSearch Dashboards** | UI used to search and visualize logs. |
+| **Event-Driven Architecture** | Services communicate by publishing and consuming events. |
+| **Kafka** | Distributed event streaming platform. |
+| **RabbitMQ** | Message broker commonly used for queues and routing. |
+| **Saga Pattern** | Manages distributed transactions using local transactions and compensation. |
+| **Docker** | Packages each service as a runnable container. |
+| **Docker Compose** | Starts multiple containers together from one YAML file. |
+| **Kubernetes** | Orchestrates containers with scaling, service discovery, and self-healing. |
 
 ## Learning Summary
 
@@ -82,6 +102,11 @@ Chapters A to C solve service discovery and service-to-service communication.
 Chapters D to H solve API Gateway routing and filtering.
 Chapters I to J solve fault tolerance and service protection.
 Chapters K to N solve distributed tracing across multiple services.
+Chapter O solves centralized log search across services using OpenSearch.
+Chapter P solves asynchronous service communication using Kafka or RabbitMQ.
+Chapter Q solves distributed transaction handling using Saga.
+Chapters R to S solve container packaging and one-command local startup.
+Chapter T solves local Kubernetes deployment practice.
 
 ## Interview Questions And Answers
 
@@ -103,6 +128,15 @@ It helps services handle failures, overload, and slow responses gracefully.
 **Q6. Why is distributed tracing needed?**  
 It helps track one request across many services and makes debugging easier.
 
+**Q7. Why is centralized logging needed?**  
+It lets us search logs from all services in one place instead of checking each service console.
+
+**Q8. Why use event-driven communication?**  
+It reduces tight coupling because services can publish events and continue without waiting for every downstream service.
+
+**Q9. What problem does Saga solve?**  
+Saga handles a business transaction that spans multiple services without one shared database transaction.
+
 ## Interview-Ready Short Answers
 
 - **Eureka** solves service discovery.
@@ -110,6 +144,11 @@ It helps track one request across many services and makes debugging easier.
 - **API Gateway** centralizes routing and common checks.
 - **Resilience4j** improves fault tolerance.
 - **Zipkin** shows request flow and latency across services.
+- **OpenSearch Dashboards** helps search logs from all services in one UI.
+- **Kafka/RabbitMQ** enable asynchronous communication between services.
+- **Saga** coordinates distributed business transactions safely.
+- **Docker Compose** starts the local microservices stack with one command.
+- **Kubernetes** runs and manages containers in a cluster.
 
 ## Reusable Balanced README Template
 

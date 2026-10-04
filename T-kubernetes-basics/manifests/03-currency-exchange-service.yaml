@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currency-exchange-service
+  namespace: microservices-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: currency-exchange-service
+  template:
+    metadata:
+      labels:
+        app: currency-exchange-service
+    spec:
+      containers:
+        - name: currency-exchange-service
+          image: currency-exchange-service:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              value: http://naming-server:8761/eureka
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: currency-exchange-service
+  namespace: microservices-demo
+spec:
+  selector:
+    app: currency-exchange-service
+  ports:
+    - port: 8000
+      targetPort: 8000
