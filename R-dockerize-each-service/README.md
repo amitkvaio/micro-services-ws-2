@@ -47,45 +47,51 @@ Docker container
 
 ## Live Classroom Demo
 
-This chapter includes a tiny HTTP service so you can show Docker working live without first building all Spring Boot services.
+This chapter includes a tiny Spring Boot service so you can show Docker working live.
 
 Open this folder:
 
 ```bash
-cd R-dockerize-each-service/live-demo
+cd R-dockerize-each-service
+```
+
+Build the Maven JAR:
+
+```bash
+mvn clean package -DskipTests
 ```
 
 Build the image:
 
 ```bash
-docker build -t dockerized-demo-service:local .
+docker build -t dockerized-spring-boot-service:local .
 ```
 
 Run the container:
 
 ```bash
-docker run --rm --name dockerized-demo-service -p 8080:8080 dockerized-demo-service:local
+docker run --rm --name dockerized-spring-boot-service -p 8203:8203 dockerized-spring-boot-service:local
 ```
 
 Open in browser:
 
 ```text
-http://localhost:8080
+http://localhost:8203/docker/status
 ```
 
 Or test from another terminal:
 
 ```powershell
-Invoke-RestMethod http://localhost:8080
+Invoke-RestMethod http://localhost:8203/docker/status
 ```
 
 Expected output:
 
 ```json
 {
-  "service": "dockerized-demo-service",
+  "service": "dockerized-spring-boot-service",
   "status": "UP",
-  "message": "This microservice is running inside a Docker container"
+  "message": "This Spring Boot microservice is ready to run inside Docker"
 }
 ```
 
@@ -123,9 +129,9 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 For the fastest classroom demo, use:
 
 ```bash
-cd live-demo
-docker build -t dockerized-demo-service:local .
-docker run --rm --name dockerized-demo-service -p 8080:8080 dockerized-demo-service:local
+mvn clean package -DskipTests
+docker build -t dockerized-spring-boot-service:local .
+docker run --rm --name dockerized-spring-boot-service -p 8203:8203 dockerized-spring-boot-service:local
 ```
 
 For a real Spring Boot service, use the steps below.

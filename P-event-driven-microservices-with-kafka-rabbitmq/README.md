@@ -70,34 +70,47 @@ Example event:
 }
 ```
 
-## Live Classroom Demo Without Kafka/RabbitMQ
+## Live Classroom Demo With Spring Boot Maven
 
 Use this demo first when you want to explain the concept quickly without installing Kafka or RabbitMQ.
-It simulates a producer, a broker file, and three consumers.
+It is a Spring Boot Maven project that simulates a producer, an in-memory broker, and three consumers.
 
 Run from this chapter folder:
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\run-local-event-demo.ps1
+```bash
+mvn spring-boot:run
 ```
 
-Expected output:
+Publish one order event:
+
+```powershell
+Invoke-RestMethod -Method Post "http://localhost:8201/events/orders?orderId=ORD-1001&amount=2500"
+```
+
+Consume events:
+
+```powershell
+Invoke-RestMethod -Method Post http://localhost:8201/events/consume
+```
+
+Run the complete demo in one call:
+
+```powershell
+Invoke-RestMethod http://localhost:8201/events/demo
+```
+
+Expected output contains:
 
 ```text
-EVENT PRODUCER
-Published event: OrderCreated for ORD-1001
-Published event: OrderCreated for ORD-1002
-
-EVENT CONSUMERS
 Payment Service consumed ORD-1001, traceId=trace-order-1001
 Inventory Service consumed ORD-1001, traceId=trace-order-1001
 Notification Service consumed ORD-1001, traceId=trace-order-1001
 ```
 
-Check the generated event queue file:
+Optional script demo:
 
 ```powershell
-Get-Content .\target\orders.events.jsonl
+powershell -ExecutionPolicy Bypass -File .\scripts\run-local-event-demo.ps1
 ```
 
 Teaching point:
@@ -167,8 +180,14 @@ public void consume(OrderCreatedEvent event) {
 
 For the quickest classroom demo, run:
 
+```bash
+mvn spring-boot:run
+```
+
+Then test:
+
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\run-local-event-demo.ps1
+Invoke-RestMethod http://localhost:8201/events/demo
 ```
 
 For a real broker demo, use Kafka or RabbitMQ below.

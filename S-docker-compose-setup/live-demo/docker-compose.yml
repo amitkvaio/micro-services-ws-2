@@ -8,35 +8,14 @@ services:
     ports:
       - "3306:3306"
 
-  eureka:
-    image: hashicorp/http-echo:1.0
-    container_name: compose-demo-eureka
-    command: ["-listen=:8761", "-text=Eureka mock is running. Services can register here in the real project."]
+  compose-demo-service:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: compose-demo-service
     ports:
-      - "8761:8761"
-
-  currency-exchange-service:
-    image: hashicorp/http-echo:1.0
-    container_name: compose-demo-exchange
-    command: ["-listen=:8000", "-text={\"service\":\"currency-exchange-service\",\"from\":\"USD\",\"to\":\"INR\",\"rate\":83.0}"]
-    ports:
-      - "8000:8000"
-
-  currency-conversion-service:
-    image: hashicorp/http-echo:1.0
-    container_name: compose-demo-conversion
-    command: ["-listen=:8100", "-text={\"service\":\"currency-conversion-service\",\"quantity\":10,\"total\":830.0}"]
-    ports:
-      - "8100:8100"
-
-  api-gateway:
-    image: nginx:1.27-alpine
-    container_name: compose-demo-gateway
-    ports:
-      - "8765:8765"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - "8204:8204"
+    environment:
+      SERVER_PORT: 8204
     depends_on:
-      - eureka
-      - currency-exchange-service
-      - currency-conversion-service
+      - mysql

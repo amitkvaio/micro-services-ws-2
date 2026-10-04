@@ -54,16 +54,21 @@ api-gateway -> currency services -> naming-server
 
 ## Live Classroom Demo
 
-This chapter includes simple Kubernetes manifests in:
+This chapter includes easy-to-read `.properties` references in:
 
 ```text
 live-demo/
 ```
 
-They deploy two small HTTP services:
+They explain two small HTTP services:
 
 - `exchange-service`
 - `conversion-service`
+
+Both services use the Spring Boot Maven project in this chapter.
+
+Important: Kubernetes does not execute `.properties` files directly.
+Use the `manifests/` folder when you want to run the Kubernetes deployment with `kubectl`.
 
 Start a local cluster using Minikube:
 
@@ -77,35 +82,54 @@ Or using kind:
 kind create cluster --name microservices-local
 ```
 
-Deploy the live demo:
+First build the Spring Boot JAR and Docker image:
 
 ```bash
-kubectl apply -f live-demo/
+mvn clean package -DskipTests
+docker build -t kubernetes-basics:local .
+```
+
+If you use Minikube, load the image:
+
+```bash
+minikube image load kubernetes-basics:local
+```
+
+If you use kind, load the image:
+
+```bash
+kind load docker-image kubernetes-basics:local --name microservices-local
+```
+
+Now deploy using the Kubernetes manifest folder:
+
+```bash
+kubectl apply -f manifests/
 ```
 
 Check pods:
 
 ```bash
-kubectl get pods -n microservices-live-demo
+kubectl get pods -n microservices-demo
 ```
 
 Expected output should show running pods:
 
 ```text
-exchange-service-xxxxx      1/1     Running
-conversion-service-xxxxx    1/1     Running
+currency-exchange-service-xxxxx      1/1     Running
+currency-conversion-service-xxxxx    1/1     Running
 ```
 
-Port-forward the exchange service:
+Port-forward the API Gateway:
 
 ```bash
-kubectl port-forward svc/exchange-service 8000:8000 -n microservices-live-demo
+kubectl port-forward svc/api-gateway 8765:8765 -n microservices-demo
 ```
 
-Test from another terminal:
+Open from another terminal or browser:
 
-```powershell
-Invoke-RestMethod http://localhost:8000
+```text
+http://localhost:8765
 ```
 
 Expected output:
@@ -113,21 +137,22 @@ Expected output:
 ```json
 {
   "service": "exchange-service",
-  "message": "Hello from Kubernetes exchange service"
+  "status": "UP",
+  "message": "This Spring Boot microservice is running in Kubernetes style"
 }
 ```
 
 Scale the exchange service:
 
 ```bash
-kubectl scale deployment exchange-service --replicas=2 -n microservices-live-demo
-kubectl get pods -n microservices-live-demo
+kubectl scale deployment currency-exchange-service --replicas=2 -n microservices-demo
+kubectl get pods -n microservices-demo
 ```
 
 Clean up:
 
 ```bash
-kubectl delete -f live-demo/
+kubectl delete -f manifests/
 ```
 
 Teaching point:
@@ -159,15 +184,17 @@ Build Docker images first, or push them to a registry that your local cluster ca
 For the fastest classroom demo:
 
 ```bash
-kubectl apply -f live-demo/
-kubectl get pods -n microservices-live-demo
-kubectl port-forward svc/exchange-service 8000:8000 -n microservices-live-demo
+mvn clean package -DskipTests
+docker build -t kubernetes-basics:local .
+kubectl apply -f manifests/
+kubectl get pods -n microservices-demo
+kubectl port-forward svc/api-gateway 8765:8765 -n microservices-demo
 ```
 
 Then test:
 
 ```powershell
-Invoke-RestMethod http://localhost:8000
+Invoke-RestMethod http://localhost:8765
 ```
 
 For the workspace-style manifests, use the steps below.

@@ -77,6 +77,46 @@ Open a terminal in this chapter folder:
 cd O-Centralized-loggin-with-ELK-open-search
 ```
 
+Start the Spring Boot Maven project:
+
+```bash
+mvn spring-boot:run
+```
+
+Test the live Java example:
+
+```powershell
+Invoke-RestMethod http://localhost:8200/logs/demo
+```
+
+Search by Trace ID:
+
+```powershell
+Invoke-RestMethod "http://localhost:8200/logs/search?traceId=trace-2026-elk-demo-001"
+```
+
+Search only errors:
+
+```powershell
+Invoke-RestMethod "http://localhost:8200/logs/search?level=ERROR"
+```
+
+Expected output contains service log records like:
+
+```json
+{
+  "serviceName": "currency-exchange-service",
+  "level": "ERROR",
+  "traceId": "trace-2026-elk-demo-001",
+  "endpoint": "/currency-exchange/from/USD/to/INR",
+  "message": "Database timeout while reading exchange value"
+}
+```
+
+The console logs also print the same trace ID, which helps students understand how logs can be searched across services.
+
+## Optional OpenSearch UI Demo
+
 Start OpenSearch and OpenSearch Dashboards:
 
 ```bash

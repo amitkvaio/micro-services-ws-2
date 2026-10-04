@@ -60,15 +60,13 @@ live-demo/docker-compose.yml
 It starts:
 
 - MySQL
-- Eureka mock
-- Currency Exchange mock service
-- Currency Conversion mock service
-- Nginx API Gateway
+- One Spring Boot Maven service from this chapter
 
 Run it:
 
 ```bash
 cd S-docker-compose-setup/live-demo
+mvn -f ..\pom.xml clean package -DskipTests
 docker compose up -d
 ```
 
@@ -78,42 +76,19 @@ Check running containers:
 docker compose ps
 ```
 
-Test Eureka mock:
+Test the Spring Boot service:
 
 ```powershell
-Invoke-RestMethod http://localhost:8761
-```
-
-Test Exchange service through API Gateway:
-
-```powershell
-Invoke-RestMethod http://localhost:8765/exchange
+Invoke-RestMethod http://localhost:8204/compose/status
 ```
 
 Expected output:
 
 ```json
 {
-  "service": "currency-exchange-service",
-  "from": "USD",
-  "to": "INR",
-  "rate": 83.0
-}
-```
-
-Test Conversion service through API Gateway:
-
-```powershell
-Invoke-RestMethod http://localhost:8765/conversion
-```
-
-Expected output:
-
-```json
-{
-  "service": "currency-conversion-service",
-  "quantity": 10,
-  "total": 830.0
+  "service": "docker-compose-setup-demo",
+  "status": "UP",
+  "message": "This Spring Boot service can be started from Docker Compose"
 }
 ```
 
@@ -126,8 +101,8 @@ docker compose down
 Teaching point:
 
 ```text
-One command starts multiple services.
-The Gateway calls services by Compose service name, not localhost.
+One command starts MySQL and a Spring Boot service.
+For the full workspace, use the main docker-compose.yml in this chapter.
 ```
 
 ## Compose File
@@ -155,14 +130,14 @@ For the fastest classroom demo:
 
 ```bash
 cd S-docker-compose-setup/live-demo
+mvn -f ..\pom.xml clean package -DskipTests
 docker compose up -d
 ```
 
 Then test:
 
 ```powershell
-Invoke-RestMethod http://localhost:8765/exchange
-Invoke-RestMethod http://localhost:8765/conversion
+Invoke-RestMethod http://localhost:8204/compose/status
 ```
 
 For the actual workspace services, use the steps below.

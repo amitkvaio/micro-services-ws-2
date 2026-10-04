@@ -78,13 +78,31 @@ Search one Saga ID in logs or events to understand the full business flow.
 
 ## Live Classroom Demo
 
-Run this script to show one successful saga and one failed saga with compensation:
+Run the Spring Boot Maven project:
 
-```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\run-saga-demo.ps1
+```bash
+mvn spring-boot:run
 ```
 
-Expected output:
+Show the full saga demo:
+
+```powershell
+Invoke-RestMethod http://localhost:8202/saga/demo
+```
+
+Show only the successful flow:
+
+```powershell
+Invoke-RestMethod http://localhost:8202/saga/success
+```
+
+Show the failed flow with compensation:
+
+```powershell
+Invoke-RestMethod http://localhost:8202/saga/failure
+```
+
+Expected output contains:
 
 ```text
 Saga ID          | Service            | Action                   | Status
@@ -97,10 +115,10 @@ saga-order-1002  | Payment Service    | Refund payment           | REFUNDED
 saga-order-1002  | Order Service      | Cancel order             | CANCELLED
 ```
 
-Run only the failure case:
+Optional script demo:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\run-saga-demo.ps1 -FailureOnly
+powershell -ExecutionPolicy Bypass -File .\scripts\run-saga-demo.ps1
 ```
 
 Teaching point:
@@ -150,11 +168,17 @@ Trade-off:
 
 ## How To Run Or Practice
 
-This chapter has a runnable PowerShell demo and a design example.
+This chapter has a runnable Spring Boot Maven demo and a design example.
 Start with:
 
+```bash
+mvn spring-boot:run
+```
+
+Then call:
+
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\scripts\run-saga-demo.ps1
+Invoke-RestMethod http://localhost:8202/saga/demo
 ```
 
 Use the sample event file to understand the flow:
