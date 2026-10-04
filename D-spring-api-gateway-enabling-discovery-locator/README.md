@@ -3,6 +3,18 @@
 This project shows how to use **Spring Cloud Gateway** with Eureka service discovery.
 The gateway becomes the single entry point for calling backend microservices.
 
+## Agenda
+
+- Understand why API Gateway is needed.
+- Enable discovery locator in Spring Cloud Gateway.
+- Route requests using Eureka service names.
+- Use the gateway as one entry point for multiple services.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of clients calling many different microservice URLs.
+The gateway provides one common entry point and forwards requests to the correct service.
+
 ## Why API Gateway Is Needed
 
 In a microservices system, services usually run on different ports or servers.
@@ -144,3 +156,19 @@ http://localhost:8765/CURRENCY-CONVERSION/currency-conversion/from/USD/to/INR/qu
 - `lb://SERVICE-NAME` means route through load balancer using Eureka.
 - Discovery locator can auto-create routes from Eureka services.
 - In production, gateway should be highly available.
+
+## Chapter Summary
+
+In this chapter, Spring Cloud Gateway automatically created routes from Eureka services.
+The next chapter solves the problem of making gateway URLs cleaner by using lowercase service ids.
+
+## Interview Questions And Answers
+
+**Q1. What is API Gateway?**  
+API Gateway is a single entry point that receives client requests and routes them to backend services.
+
+**Q2. What does discovery locator do?**  
+It automatically creates gateway routes for services registered in Eureka.
+
+**Q3. What does `lb://` mean?**  
+It means the gateway should use load balancing and service discovery to find the target service.

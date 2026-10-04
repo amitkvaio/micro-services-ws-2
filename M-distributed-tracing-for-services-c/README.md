@@ -9,6 +9,18 @@ Request flow:
 Service A -> Service B -> Service C -> Service D
 ```
 
+## Agenda
+
+- Receive the traced request from Service B.
+- Log trace details in the middle service.
+- Call Service D with the same trace context.
+- Verify the full chain is still connected.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of losing trace context in the middle of a service chain.
+Service C keeps the same Trace ID while creating its own Span ID.
+
 ## Purpose
 
 Service C shows how tracing continues through the middle of a microservice call chain.
@@ -44,3 +56,19 @@ http://localhost:8002/c/call
 - Service C is a downstream service in the trace flow.
 - The Trace ID remains common across all services.
 - Each service creates a separate Span ID.
+
+## Chapter Summary
+
+In this chapter, Service C continued the trace and called Service D.
+The next chapter solves the problem of confirming the final service received the same request trace.
+
+## Interview Questions And Answers
+
+**Q1. Why is Service C called a middle service here?**  
+Because it receives a request from Service B and forwards the flow to Service D.
+
+**Q2. What should we check in Service C logs?**  
+Check that the Trace ID is the same and the Span ID is different.
+
+**Q3. Why is this useful in production?**  
+It helps find where latency or failure happens in a long service chain.

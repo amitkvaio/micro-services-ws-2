@@ -3,6 +3,18 @@
 This project shows how to define Spring Cloud Gateway routes in Java code.
 Instead of depending only on discovery locator, we manually decide which paths should go to which service.
 
+## Agenda
+
+- Create gateway routes using Java configuration.
+- Route selected paths to selected services.
+- Understand `RouteLocator` and `RouteLocatorBuilder`.
+- Prepare for request modification using filters.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of exposing every Eureka service automatically.
+Manual routes give better control over which APIs are available through the gateway.
+
 ## Route Configuration
 
 ```java
@@ -90,3 +102,19 @@ http://localhost:8765/currency-conversion/from/USD/to/INR/quantity/10
 - Manual routes give more control than discovery locator.
 - `lb://` means load-balanced service lookup.
 - Gateway integrates with Eureka to find the actual service instance.
+
+## Chapter Summary
+
+In this chapter, we manually controlled gateway routes.
+The next chapter solves the problem of modifying requests before they reach backend services.
+
+## Interview Questions And Answers
+
+**Q1. What is `RouteLocator`?**  
+`RouteLocator` stores the routing rules used by Spring Cloud Gateway.
+
+**Q2. Why define routes manually?**  
+Manual routes give more security and control over exposed APIs.
+
+**Q3. What is the advantage of `lb://SERVICE-NAME`?**  
+It allows the gateway to discover and load balance service instances through Eureka.

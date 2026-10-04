@@ -9,6 +9,18 @@ Request flow:
 Service A -> Service B -> Service C -> Service D
 ```
 
+## Agenda
+
+- Receive the traced request from Service A.
+- Log Trace ID and Span ID in Service B.
+- Call Service C while keeping the same Trace ID.
+- Verify that trace propagation continues.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of keeping trace context alive after the first service call.
+Service B proves that the same request can be tracked across the next service.
+
 ## Purpose
 
 Service B helps verify that the same Trace ID continues when one service calls another service.
@@ -46,3 +58,19 @@ http://localhost:8001/b/call
 - Service B receives the same Trace ID from Service A.
 - Service B creates its own Span ID.
 - The trace continues when Service B calls Service C.
+
+## Chapter Summary
+
+In this chapter, Service B continued the trace from Service A and called Service C.
+The next chapter solves the problem of carrying the same trace through the middle layer.
+
+## Interview Questions And Answers
+
+**Q1. Should Trace ID change in Service B?**  
+No. Trace ID should remain the same for the same request flow.
+
+**Q2. Should Span ID change in Service B?**  
+Yes. Each service operation gets its own Span ID.
+
+**Q3. Why is Service B important in tracing?**  
+It proves that trace context can move from one service to the next.

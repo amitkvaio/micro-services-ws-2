@@ -9,6 +9,18 @@ Request flow:
 Service A -> Service B -> Service C -> Service D
 ```
 
+## Agenda
+
+- Understand Trace ID and Span ID.
+- Configure Micrometer Tracing and Zipkin.
+- Start the distributed tracing flow from Service A.
+- Call Service B and verify trace propagation.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of debugging a request that travels through many services.
+Distributed tracing gives one Trace ID for the full request journey.
+
 ## What Is Distributed Tracing?
 
 In microservices, one user request can travel through many services.
@@ -168,3 +180,22 @@ Different Span IDs show each individual service operation.
 - Span ID identifies one operation inside the request flow.
 - Zipkin is used to view traces in a UI.
 - Micrometer Tracing is the modern replacement for Sleuth in Spring Boot 3.
+
+## Chapter Summary
+
+In this chapter, Service A started the distributed trace and called Service B.
+The next chapter solves the problem of continuing the same trace through Service B.
+
+## Interview Questions And Answers
+
+**Q1. What is Trace ID?**  
+Trace ID is the common id for the complete request journey across services.
+
+**Q2. What is Span ID?**  
+Span ID identifies one operation or service call inside a trace.
+
+**Q3. What is Zipkin?**  
+Zipkin is a UI and tracing system used to view request flow and latency.
+
+**Q4. What replaced Sleuth in Spring Boot 3?**  
+Micrometer Tracing is used instead of Spring Cloud Sleuth.

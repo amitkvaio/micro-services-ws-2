@@ -4,6 +4,18 @@ This project is a **Eureka Client**. It registers the Currency Exchange Service 
 
 It also uses an H2 in-memory database for sample currency exchange data.
 
+## Agenda
+
+- Register Currency Exchange Service with Eureka.
+- Store sample exchange values in H2 database.
+- Expose an API to return conversion multiple.
+- Prepare this service to be consumed by Currency Conversion Service.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of making a backend service **discoverable**.
+Other services can now find Currency Exchange Service using its service name instead of a fixed URL.
+
 ## Eureka Client Dependency
 
 Add this dependency in `pom.xml`:
@@ -156,3 +168,19 @@ jdbc:h2:mem:testdb
 - Feign is used to call another REST service.
 - Eureka removes the need for hardcoded service URLs.
 - H2 is useful for local development, but MySQL or another real database is preferred for production.
+
+## Chapter Summary
+
+In this chapter, Currency Exchange Service was registered with Eureka and exposed exchange data.
+The next chapter solves the problem of calling this service from another microservice.
+
+## Interview Questions And Answers
+
+**Q1. What is a Eureka Client?**  
+A Eureka Client is a microservice that registers itself with Eureka and can discover other services.
+
+**Q2. Why use H2 in this project?**  
+H2 is lightweight and good for local learning or testing without installing a full database.
+
+**Q3. Why should we avoid hardcoded service URLs?**  
+Hardcoded URLs break when service ports or server locations change.

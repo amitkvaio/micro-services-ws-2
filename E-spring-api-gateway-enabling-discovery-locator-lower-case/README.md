@@ -2,6 +2,18 @@
 
 This project shows how to make Spring Cloud Gateway discovery routes use lowercase service names.
 
+## Agenda
+
+- Understand default uppercase Eureka service ids.
+- Enable lowercase service ids in gateway routes.
+- Make API Gateway URLs cleaner and easier to use.
+- Prepare for manually controlled routes in the next chapter.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of gateway URLs looking less readable because of uppercase service names.
+Lowercase URLs are simpler and follow common REST API style.
+
 ## Property
 
 ```properties
@@ -98,3 +110,19 @@ http://localhost:8765/currency-conversion/currency-conversion/from/USD/to/INR/qu
 - Eureka stores service names in uppercase by default.
 - Gateway can expose cleaner lowercase routes.
 - Lowercase URLs are preferred for public APIs.
+
+## Chapter Summary
+
+In this chapter, gateway URLs became cleaner with lowercase service ids.
+The next chapter solves the problem of controlling gateway routes manually instead of exposing auto-created routes.
+
+## Interview Questions And Answers
+
+**Q1. Why are Eureka service names often uppercase?**  
+Eureka commonly stores registered service ids in uppercase.
+
+**Q2. Why use lowercase URLs?**  
+Lowercase URLs are easier to read, type, and maintain.
+
+**Q3. When should we avoid automatic discovery routes?**  
+When we want full control and do not want every service exposed through the gateway.

@@ -3,6 +3,18 @@
 This project shows how to use **Resilience4j** with Spring Boot microservices.
 Resilience4j helps a service stay stable when another service is slow, down, or returning errors.
 
+## Agenda
+
+- Understand why fault tolerance is needed.
+- Add Retry for temporary failures.
+- Add Circuit Breaker for repeated failures.
+- Use fallback methods to return controlled responses.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of one failed service breaking another service.
+Retry and Circuit Breaker make service communication more stable and predictable.
+
 ## Dependency
 
 ```xml
@@ -194,3 +206,22 @@ http://localhost:8080/currency-conversion-feign-circuit-breaker/from/USD/to/INR/
 - Circuit Breaker is good for repeated failures.
 - Fallback gives a controlled response to the user.
 - Circuit Breaker prevents one failing service from affecting the full system.
+
+## Chapter Summary
+
+In this chapter, Retry and Circuit Breaker handled service failures gracefully.
+The next chapter solves the problem of traffic overload, too many parallel calls, and slow responses.
+
+## Interview Questions And Answers
+
+**Q1. What is Resilience4j?**  
+Resilience4j is a fault-tolerance library used to make microservices more reliable.
+
+**Q2. When should we use Retry?**  
+Use Retry for temporary failures like network glitches or short service downtime.
+
+**Q3. When should we use Circuit Breaker?**  
+Use Circuit Breaker when a service keeps failing and repeated calls should be stopped for some time.
+
+**Q4. What is a fallback method?**  
+A fallback method returns an alternate response when the main call fails.

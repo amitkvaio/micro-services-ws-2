@@ -3,6 +3,18 @@
 This project shows how to use a `GlobalFilter` in Spring Cloud Gateway.
 A global filter runs for every request that passes through the gateway.
 
+## Agenda
+
+- Understand `GlobalFilter`.
+- Add common pre-filter and post-filter logic.
+- Log request and response information.
+- Learn where authentication, tracing, and metrics can be added.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of repeating common logic in every route.
+A global filter applies shared behavior once at the gateway level.
+
 ## What Is `GlobalFilter`?
 
 `GlobalFilter` is an interface in Spring Cloud Gateway.
@@ -108,3 +120,19 @@ Global POST Filter: JwtAuthGlobalFilter Response status -> 200 OK
 - Global filters apply to all gateway requests.
 - Global filters are good for security, logging, tracing, and metrics.
 - Keep global filters fast because they affect every request.
+
+## Chapter Summary
+
+In this chapter, global filters added common behavior to all gateway requests.
+The next chapter solves the problem of service failures using Resilience4j retry and circuit breaker.
+
+## Interview Questions And Answers
+
+**Q1. What is `GlobalFilter`?**  
+`GlobalFilter` is a Spring Cloud Gateway filter that runs for all routes.
+
+**Q2. Where can JWT validation be added in Gateway?**  
+JWT validation can be added in a global filter so every request is checked.
+
+**Q3. Why should global filters be lightweight?**  
+Every gateway request passes through them, so heavy logic can slow the whole system.

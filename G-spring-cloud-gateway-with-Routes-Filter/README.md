@@ -3,6 +3,18 @@
 This project shows how to add route-specific filters in Spring Cloud Gateway.
 Filters can modify the request before it reaches the backend service.
 
+## Agenda
+
+- Create route-specific filters.
+- Add request headers and query parameters.
+- Rewrite client-facing paths to backend service paths.
+- Understand when route filters are useful.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of sending requests exactly as received.
+Gateway filters let us enrich, clean, or rewrite requests before forwarding them.
+
 ## Simple Route Example
 
 ```java
@@ -119,3 +131,19 @@ http://localhost:8765/currency-conversion-new/from/USD/to/INR/quantity/10
 - Route filters apply only to selected routes.
 - `rewritePath` is useful when public API paths and backend paths are different.
 - `httpbin.org` is commonly used to test HTTP behavior.
+
+## Chapter Summary
+
+In this chapter, route filters modified specific gateway requests.
+The next chapter solves the problem of applying common logic to every gateway request.
+
+## Interview Questions And Answers
+
+**Q1. What is a Gateway filter?**  
+A Gateway filter modifies the request or response during routing.
+
+**Q2. What is `rewritePath` used for?**  
+It changes the incoming path before forwarding the request to the backend service.
+
+**Q3. What is the difference between a route filter and a global filter?**  
+A route filter applies to selected routes. A global filter applies to all routes.

@@ -9,6 +9,18 @@ This project shows more Resilience4j patterns:
 
 These patterns help protect a service from overload and slow calls.
 
+## Agenda
+
+- Use Rate Limiter to control request count.
+- Use Bulkhead to control parallel calls.
+- Use Time Limiter to stop long-running calls.
+- Understand the order of multiple Resilience4j aspects.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of service overload.
+It protects the application from too many requests, too many concurrent calls, and slow methods.
+
 ## Rate Limiter
 
 `RateLimiter` controls how many calls are allowed in a fixed time period.
@@ -221,3 +233,22 @@ resilience4j.retry.retryAspectOrder=5
 - Time Limiter controls maximum execution time.
 - Bulkhead protects resources from overload.
 - Time Limiter needs async return types because it must cancel or timeout the running task.
+
+## Chapter Summary
+
+In this chapter, Rate Limiter, Bulkhead, and Time Limiter protected the service from overload and delays.
+The next chapter solves the problem of tracking one request across multiple microservices.
+
+## Interview Questions And Answers
+
+**Q1. What is Rate Limiter?**  
+Rate Limiter controls how many calls are allowed in a time period.
+
+**Q2. What is Bulkhead?**  
+Bulkhead limits concurrent calls so one busy feature does not consume all resources.
+
+**Q3. What is Time Limiter?**  
+Time Limiter fails a call if it takes more than the configured time.
+
+**Q4. Why does Time Limiter need `CompletableFuture`?**  
+Because timeout and cancellation work better with asynchronous return types.

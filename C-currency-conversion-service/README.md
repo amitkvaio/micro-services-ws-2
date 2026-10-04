@@ -3,6 +3,18 @@
 This project registers the **Currency Conversion Service** with the Eureka Naming Server.
 It calls the Currency Exchange Service to calculate the final converted amount.
 
+## Agenda
+
+- Register Currency Conversion Service with Eureka.
+- Call Currency Exchange Service using service discovery.
+- Calculate the final converted amount.
+- Compare normal REST call flow with Feign-based communication.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of **service-to-service communication**.
+Currency Conversion Service can call Currency Exchange Service without hardcoding the exchange service location.
+
 ## Dependency
 
 Add this dependency in `pom.xml`:
@@ -84,3 +96,19 @@ http://localhost:8100/currency-conversion/from/USD/to/INR/quantity/10
 - It uses Feign to call Currency Exchange Service.
 - The exchange service URL is discovered from Eureka.
 - Multiple exchange service instances can be used for load balancing.
+
+## Chapter Summary
+
+In this chapter, one microservice called another microservice through Eureka discovery.
+The next chapter solves the problem of exposing microservices through a single API Gateway.
+
+## Interview Questions And Answers
+
+**Q1. What is Feign Client?**  
+Feign is a declarative REST client. It helps call another REST service using an interface.
+
+**Q2. Why use Eureka with Feign?**  
+Feign can use Eureka to find the target service by name and avoid fixed URLs.
+
+**Q3. What is service-to-service communication?**  
+It means one microservice calls another microservice to complete a business operation.

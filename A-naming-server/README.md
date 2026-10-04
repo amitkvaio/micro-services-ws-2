@@ -3,6 +3,18 @@
 This project is the **Eureka Service Registry** for the microservices examples.
 It runs on port `8761` and helps services find each other without hardcoded URLs.
 
+## Agenda
+
+- Understand why hardcoded service URLs are a problem.
+- Create a Eureka Naming Server.
+- Learn how service discovery works in microservices.
+- Prepare the base for service registration in the next chapter.
+
+## Problem Solved In This Chapter
+
+This chapter solves the problem of **service location management**.
+Instead of remembering host names and ports manually, services can use Eureka as a common registry.
+
 ## Problem Before Eureka
 
 Earlier, a Feign client used a fixed URL:
@@ -78,3 +90,19 @@ It does not need to register with another Eureka server.
 - Eureka Server is the registry.
 - Eureka Client is any microservice that registers with Eureka.
 - In real projects, we usually run more than one service instance for high availability.
+
+## Chapter Summary
+
+In this chapter, we created the Eureka Naming Server.
+The next chapter solves the problem of registering a real microservice with Eureka.
+
+## Interview Questions And Answers
+
+**Q1. What is Eureka Server?**  
+Eureka Server is a service registry where microservices register themselves and discover other services.
+
+**Q2. Why do we need service discovery?**  
+Because service instances can run on different ports or machines. Service discovery removes hardcoded URLs.
+
+**Q3. Why is `register-with-eureka=false` used in Eureka Server?**  
+Because the server itself does not need to register as a client.
