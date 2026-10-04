@@ -5,10 +5,14 @@ It calls the Currency Exchange Service to calculate the final converted amount.
 
 ## Agenda
 
-- Register Currency Conversion Service with Eureka.
-- Call Currency Exchange Service using service discovery.
-- Calculate the final converted amount.
-- Compare normal REST call flow with Feign-based communication.
+- [Problem we will solve](#problem-solved-in-this-chapter)
+- [What you will learn](#what-you-will-learn)
+- [Main explanation and examples](#dependency)
+- [How to run](#how-to-run)
+- [Key points or common mistakes](#key-points-or-common-mistakes)
+- [Chapter Summary and Next Step](#chapter-summary)
+- [Common interview questions](#interview-questions-and-answers)
+
 
 ## Problem Solved In This Chapter
 
@@ -25,6 +29,13 @@ Add this dependency in `pom.xml`:
     <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 </dependency>
 ```
+
+## What You Will Learn
+
+- How Currency Conversion calls Currency Exchange.
+- How Feign removes manual REST client code.
+- How Eureka helps Feign find service instances.
+
 
 ## Enable Discovery
 
@@ -46,19 +57,6 @@ public class CurrencyConversionServicesApplicationUsingFeign {
 
 ```properties
 eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka
-```
-
-## How To Run
-
-1. Start `A-naming-server`.
-2. Start `B-currency-exchange-service`.
-3. Start `C-currency-conversion-service`.
-4. Open Eureka dashboard and verify both services are registered.
-
-Eureka dashboard:
-
-```text
-http://localhost:8761/
 ```
 
 ## URLs
@@ -90,6 +88,26 @@ http://localhost:8100/currency-conversion/from/USD/to/INR/quantity/10
 }
 ```
 
+## How To Run
+
+1. Start `A-naming-server`.
+2. Start `B-currency-exchange-service`.
+3. Start `C-currency-conversion-service`.
+4. Open Eureka dashboard and verify both services are registered.
+
+Eureka dashboard:
+
+```text
+http://localhost:8761/
+```
+
+## Key Points Or Common Mistakes
+
+- Do not start this service before the exchange service if you want a successful Feign call.
+- Use the service name `currency-exchange`, not a hardcoded URL, for Eureka-based Feign.
+- Port `8100` is used by this conversion service.
+
+
 ## Interview Points
 
 - Currency Conversion Service is a Eureka Client.
@@ -102,6 +120,9 @@ http://localhost:8100/currency-conversion/from/USD/to/INR/quantity/10
 In this chapter, one microservice called another microservice through Eureka discovery.
 The next chapter solves the problem of exposing microservices through a single API Gateway.
 
+**Next step:** Continue with [D-spring-api-gateway-enabling-discovery-locator](../D-spring-api-gateway-enabling-discovery-locator/README.md), which solves the next remaining problem in the learning path.
+
+
 ## Interview Questions And Answers
 
 **Q1. What is Feign Client?**  
@@ -112,3 +133,12 @@ Feign can use Eureka to find the target service by name and avoid fixed URLs.
 
 **Q3. What is service-to-service communication?**  
 It means one microservice calls another microservice to complete a business operation.
+
+**Q4. Which annotation enables Feign clients?**  
+`@EnableFeignClients` enables Feign client scanning.
+
+**Q5. What is the main benefit of Feign?**  
+It lets us call REST APIs using a Java interface.
+
+**Q6. What happens if Currency Exchange Service is down?**  
+The conversion call fails unless resilience logic is added in later chapters.

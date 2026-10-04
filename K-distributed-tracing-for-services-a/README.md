@@ -11,10 +11,14 @@ Service A -> Service B -> Service C -> Service D
 
 ## Agenda
 
-- Understand Trace ID and Span ID.
-- Configure Micrometer Tracing and Zipkin.
-- Start the distributed tracing flow from Service A.
-- Call Service B and verify trace propagation.
+- [Problem we will solve](#problem-solved-in-this-chapter)
+- [What you will learn](#what-you-will-learn)
+- [Main explanation and examples](#what-is-distributed-tracing)
+- [How to run](#how-to-run)
+- [Key points or common mistakes](#key-points-or-common-mistakes)
+- [Chapter Summary and Next Step](#chapter-summary)
+- [Common interview questions](#interview-questions-and-answers)
+
 
 ## Problem Solved In This Chapter
 
@@ -32,6 +36,13 @@ Distributed tracing solves this by adding:
 - Span ID: one id for each service call or operation.
 
 Using these ids, we can follow one request across all services.
+
+## What You Will Learn
+
+- How Trace ID starts in Service A.
+- How Service A calls Service B.
+- How Micrometer Tracing sends spans to Zipkin.
+
 
 ## Sleuth And Zipkin
 
@@ -136,15 +147,6 @@ public class RestTemplateConfig {
 }
 ```
 
-## How To Run
-
-1. Start Zipkin on port `9411`.
-2. Start Service A on port `8000`.
-3. Start Service B on port `8001`.
-4. Start Service C on port `8002`.
-5. Start Service D on port `8003`.
-6. Call Service A and check logs in all services.
-
 ## URLs
 
 Zipkin dashboard:
@@ -174,6 +176,22 @@ Service D traceId=68a1d0be25bfc63f3b08f51bc452d532 spanId=934f83ae690fe38a
 The same Trace ID proves that one request travelled through all four services.
 Different Span IDs show each individual service operation.
 
+## How To Run
+
+1. Start Zipkin on port `9411`.
+2. Start Service A on port `8000`.
+3. Start Service B on port `8001`.
+4. Start Service C on port `8002`.
+5. Start Service D on port `8003`.
+6. Call Service A and check logs in all services.
+
+## Key Points Or Common Mistakes
+
+- All tracing services must point to the same Zipkin endpoint.
+- Use sampling probability `1.0` for learning, not necessarily for production.
+- Trace ID should remain the same through A, B, C, and D.
+
+
 ## Interview Points
 
 - Trace ID identifies the complete request flow.
@@ -185,6 +203,9 @@ Different Span IDs show each individual service operation.
 
 In this chapter, Service A started the distributed trace and called Service B.
 The next chapter solves the problem of continuing the same trace through Service B.
+
+**Next step:** Continue with [L-distributed-tracing-for-services-b](../L-distributed-tracing-for-services-b/README.md), which solves the next remaining problem in the learning path.
+
 
 ## Interview Questions And Answers
 
@@ -199,3 +220,12 @@ Zipkin is a UI and tracing system used to view request flow and latency.
 
 **Q4. What replaced Sleuth in Spring Boot 3?**  
 Micrometer Tracing is used instead of Spring Cloud Sleuth.
+
+**Q5. Why use sampling?**  
+Sampling controls how many requests are traced.
+
+**Q6. What does Zipkin show?**  
+It shows services, spans, timing, and request flow.
+
+**Q7. Why is `RestTemplateBuilder` used?**  
+It creates a Spring-managed `RestTemplate` that can participate in tracing instrumentation.

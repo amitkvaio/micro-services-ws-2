@@ -5,10 +5,14 @@ It runs on port `8761` and helps services find each other without hardcoded URLs
 
 ## Agenda
 
-- Understand why hardcoded service URLs are a problem.
-- Create a Eureka Naming Server.
-- Learn how service discovery works in microservices.
-- Prepare the base for service registration in the next chapter.
+- [Problem we will solve](#problem-solved-in-this-chapter)
+- [What you will learn](#what-you-will-learn)
+- [Main explanation and examples](#problem-before-eureka)
+- [How to run](#how-to-run)
+- [Key points or common mistakes](#key-points-or-common-mistakes)
+- [Chapter Summary and Next Step](#chapter-summary)
+- [Common interview questions](#interview-questions-and-answers)
+
 
 ## Problem Solved In This Chapter
 
@@ -28,6 +32,13 @@ This works for one instance, but it is not practical in microservices.
 - If we run more instances on ports `8000`, `8001`, or `8002`, we must change configuration.
 - If one service goes down, the client may still call the failed service.
 - If a new service instance starts, other services do not automatically know about it.
+
+## What You Will Learn
+
+- Why service discovery is needed.
+- How Eureka Server works.
+- Why the Eureka server does not register with itself.
+
 
 ## Solution
 
@@ -84,6 +95,19 @@ It does not need to register with another Eureka server.
 - Works well with Feign and load balancing.
 - Helps build scalable microservices.
 
+## How To Run
+
+- Prerequisites: Java 17 and Maven.
+- From `A-naming-server`, run `mvn spring-boot:run`.
+- Open `http://localhost:8761/` to verify the Eureka dashboard.
+
+## Key Points Or Common Mistakes
+
+- Do not set Eureka Server as a normal client unless you are building a clustered Eureka setup.
+- Port `8761` is the expected Eureka dashboard port in this workspace.
+- Start this chapter before running Eureka client services.
+
+
 ## Interview Points
 
 - Eureka is used for **service discovery**.
@@ -96,6 +120,9 @@ It does not need to register with another Eureka server.
 In this chapter, we created the Eureka Naming Server.
 The next chapter solves the problem of registering a real microservice with Eureka.
 
+**Next step:** Continue with [B-currency-exchange-service](../B-currency-exchange-service/README.md), which solves the next remaining problem in the learning path.
+
+
 ## Interview Questions And Answers
 
 **Q1. What is Eureka Server?**  
@@ -106,3 +133,13 @@ Because service instances can run on different ports or machines. Service discov
 
 **Q3. Why is `register-with-eureka=false` used in Eureka Server?**  
 Because the server itself does not need to register as a client.
+
+
+**Q4. What port does this Eureka Server use?**  
+It uses port `8761`.
+
+**Q5. What happens if Eureka is down?**  
+New discovery lookups may fail, but clients can sometimes use cached registry data for a short time.
+
+**Q6. Is Eureka a database?**  
+No. It is a runtime service registry, not a persistent business database.

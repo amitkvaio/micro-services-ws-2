@@ -11,10 +11,14 @@ Service A -> Service B -> Service C -> Service D
 
 ## Agenda
 
-- Receive the final traced request from Service C.
-- Confirm the same Trace ID reached the last service.
-- Return the final response.
-- View the complete request journey in Zipkin.
+- [Problem we will solve](#problem-solved-in-this-chapter)
+- [What you will learn](#what-you-will-learn)
+- [Main explanation and examples](#purpose)
+- [How to run](#how-to-run)
+- [Key points or common mistakes](#key-points-or-common-mistakes)
+- [Chapter Summary and Practice Task](#chapter-summary)
+- [Common interview questions](#interview-questions-and-answers)
+
 
 ## Problem Solved In This Chapter
 
@@ -25,6 +29,13 @@ Service D completes the trace chain.
 
 Service D confirms that the trace reaches the final downstream service.
 The same Trace ID should be visible in Service A, B, C, and D logs.
+
+## What You Will Learn
+
+- How the final service completes the trace.
+- How to confirm the same Trace ID reached the end.
+- How to use Zipkin to view the complete chain.
+
 
 ## Configuration
 
@@ -51,6 +62,13 @@ http://localhost:8003/d/call
 3. Call `http://localhost:8000/a/call`.
 4. Verify the same Trace ID in all service logs.
 
+## Key Points Or Common Mistakes
+
+- Service D is the final service and should not call another service in this chapter.
+- If Service D is down, the chain from Service A will fail near the end.
+- Service D uses port `8003`.
+
+
 ## Interview Points
 
 - Service D is the final service in the trace.
@@ -63,6 +81,9 @@ http://localhost:8003/d/call
 In this chapter, Service D completed the distributed tracing flow.
 Together, chapters K to N solve the problem of tracking one request across multiple services.
 
+**Practice task:** Add one more downstream service or introduce a controlled failure, then verify the trace in Zipkin.
+
+
 ## Interview Questions And Answers
 
 **Q1. What should Service D show in logs?**  
@@ -73,3 +94,12 @@ Zipkin shows the full request path, service timing, and latency between services
 
 **Q3. What is the main benefit of distributed tracing?**  
 It makes debugging easier when one request moves through many microservices.
+
+**Q4. What port does Service D use?**  
+Service D uses port `8003`.
+
+**Q5. What should happen after Service D responds?**  
+The response returns back through C, B, and A.
+
+**Q6. What is a good next practice task?**  
+Add one more service or add error handling, then observe the trace in Zipkin.

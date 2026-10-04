@@ -11,10 +11,14 @@ Service A -> Service B -> Service C -> Service D
 
 ## Agenda
 
-- Receive the traced request from Service B.
-- Log trace details in the middle service.
-- Call Service D with the same trace context.
-- Verify the full chain is still connected.
+- [Problem we will solve](#problem-solved-in-this-chapter)
+- [What you will learn](#what-you-will-learn)
+- [Main explanation and examples](#purpose)
+- [How to run](#how-to-run)
+- [Key points or common mistakes](#key-points-or-common-mistakes)
+- [Chapter Summary and Next Step](#chapter-summary)
+- [Common interview questions](#interview-questions-and-answers)
+
 
 ## Problem Solved In This Chapter
 
@@ -25,6 +29,13 @@ Service C keeps the same Trace ID while creating its own Span ID.
 
 Service C shows how tracing continues through the middle of a microservice call chain.
 The Trace ID should remain the same, and Service C should create a new Span ID.
+
+## What You Will Learn
+
+- How Service C continues the trace.
+- How Service C calls Service D.
+- How middle services help identify latency.
+
 
 ## Configuration
 
@@ -51,6 +62,13 @@ http://localhost:8002/c/call
 3. Call `http://localhost:8000/a/call`.
 4. Check the console logs and Zipkin dashboard.
 
+## Key Points Or Common Mistakes
+
+- Service C must run on port `8002` for the current hardcoded call chain.
+- Keep the same Zipkin endpoint across all tracing services.
+- Trace ID should not change between B and C.
+
+
 ## Interview Points
 
 - Service C is a downstream service in the trace flow.
@@ -62,6 +80,9 @@ http://localhost:8002/c/call
 In this chapter, Service C continued the trace and called Service D.
 The next chapter solves the problem of confirming the final service received the same request trace.
 
+**Next step:** Continue with [N-distributed-tracing-for-services-d](../N-distributed-tracing-for-services-d/README.md), which solves the next remaining problem in the learning path.
+
+
 ## Interview Questions And Answers
 
 **Q1. Why is Service C called a middle service here?**  
@@ -72,3 +93,12 @@ Check that the Trace ID is the same and the Span ID is different.
 
 **Q3. Why is this useful in production?**  
 It helps find where latency or failure happens in a long service chain.
+
+**Q4. What port does Service C use?**  
+Service C uses port `8002`.
+
+**Q5. What service does C call next?**  
+Service C calls Service D at `/d/call`.
+
+**Q6. How does tracing help with middle services?**  
+It shows whether the delay or failure happened before, inside, or after that service.

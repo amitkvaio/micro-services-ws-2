@@ -4,10 +4,14 @@ This project shows how to make Spring Cloud Gateway discovery routes use lowerca
 
 ## Agenda
 
-- Understand default uppercase Eureka service ids.
-- Enable lowercase service ids in gateway routes.
-- Make API Gateway URLs cleaner and easier to use.
-- Prepare for manually controlled routes in the next chapter.
+- [Problem we will solve](#problem-solved-in-this-chapter)
+- [What you will learn](#what-you-will-learn)
+- [Main explanation and examples](#property)
+- [How to run](#how-to-run)
+- [Key points or common mistakes](#key-points-or-common-mistakes)
+- [Chapter Summary and Next Step](#chapter-summary)
+- [Common interview questions](#interview-questions-and-answers)
+
 
 ## Problem Solved In This Chapter
 
@@ -19,6 +23,13 @@ Lowercase URLs are simpler and follow common REST API style.
 ```properties
 spring.cloud.gateway.discovery.locator.lower-case-service-id=true
 ```
+
+## What You Will Learn
+
+- How lowercase service ids improve URLs.
+- How Gateway changes route naming from Eureka ids.
+- Why lowercase paths are easier for REST APIs.
+
 
 ## Default Behavior
 
@@ -63,19 +74,6 @@ Usually, keep this property as `true`.
 - URLs are easier to remember.
 - Lowercase paths follow common REST API style.
 
-## How To Run
-
-1. Start `A-naming-server`.
-2. Start `B-currency-exchange-service`.
-3. Start more exchange service instances by changing the port, for example:
-
-```text
--Dserver.port=8001
-```
-
-4. Start `C-currency-conversion-service`.
-5. Start this gateway project.
-
 ## URLs
 
 Currency Exchange Service:
@@ -105,6 +103,26 @@ http://localhost:8765/currency-conversion/currency-conversion-feign/from/USD/to/
 http://localhost:8765/currency-conversion/currency-conversion/from/USD/to/INR/quantity/10
 ```
 
+## How To Run
+
+1. Start `A-naming-server`.
+2. Start `B-currency-exchange-service`.
+3. Start more exchange service instances by changing the port, for example:
+
+```text
+-Dserver.port=8001
+```
+
+4. Start `C-currency-conversion-service`.
+5. Start this gateway project.
+
+## Key Points Or Common Mistakes
+
+- Uppercase gateway URLs will not work after lowercase service id routing is enabled.
+- The service id segment and backend API path can both appear in the URL.
+- Only one service can use port `8765` at a time.
+
+
 ## Interview Points
 
 - Eureka stores service names in uppercase by default.
@@ -116,6 +134,9 @@ http://localhost:8765/currency-conversion/currency-conversion/from/USD/to/INR/qu
 In this chapter, gateway URLs became cleaner with lowercase service ids.
 The next chapter solves the problem of controlling gateway routes manually instead of exposing auto-created routes.
 
+**Next step:** Continue with [F-spring-api-gateway-With-Routes](../F-spring-api-gateway-With-Routes/README.md), which solves the next remaining problem in the learning path.
+
+
 ## Interview Questions And Answers
 
 **Q1. Why are Eureka service names often uppercase?**  
@@ -126,3 +147,12 @@ Lowercase URLs are easier to read, type, and maintain.
 
 **Q3. When should we avoid automatic discovery routes?**  
 When we want full control and do not want every service exposed through the gateway.
+
+**Q4. Which property enables lowercase service ids?**  
+`spring.cloud.gateway.discovery.locator.lowerCaseServiceId=true` enables it.
+
+**Q5. Does this change the real Eureka service name?**  
+No. It changes the route path exposed by Gateway.
+
+**Q6. Why do teams prefer lowercase URLs?**  
+They are easier to read, type, and share.

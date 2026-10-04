@@ -5,10 +5,14 @@ Resilience4j helps a service stay stable when another service is slow, down, or 
 
 ## Agenda
 
-- Understand why fault tolerance is needed.
-- Add Retry for temporary failures.
-- Add Circuit Breaker for repeated failures.
-- Use fallback methods to return controlled responses.
+- [Problem we will solve](#problem-solved-in-this-chapter)
+- [What you will learn](#what-you-will-learn)
+- [Main explanation and examples](#dependency)
+- [How to run](#how-to-run)
+- [Key points or common mistakes](#key-points-or-common-mistakes)
+- [Chapter Summary and Next Step](#chapter-summary)
+- [Common interview questions](#interview-questions-and-answers)
+
 
 ## Problem Solved In This Chapter
 
@@ -23,6 +27,13 @@ Retry and Circuit Breaker make service communication more stable and predictable
     <artifactId>resilience4j-spring-boot2</artifactId>
 </dependency>
 ```
+
+## What You Will Learn
+
+- How Retry handles temporary failures.
+- How Circuit Breaker blocks repeated failing calls.
+- How fallback methods return controlled responses.
+
 
 ## Why We Use Resilience4j
 
@@ -167,13 +178,6 @@ resilience4j.circuitbreaker.instances.currencyConversionServiceWithCircuitBreake
 5. If test calls pass, it closes again.
 6. If test calls fail, it opens again.
 
-## How To Run
-
-1. Start `A-naming-server`.
-2. Start `B-currency-exchange-service`.
-3. Start this project.
-4. Stop `B-currency-exchange-service` and call the retry API again to test fallback.
-
 ## URLs
 
 Eureka:
@@ -200,6 +204,20 @@ Circuit Breaker API:
 http://localhost:8080/currency-conversion-feign-circuit-breaker/from/USD/to/INR/quantity/10
 ```
 
+## How To Run
+
+1. Start `A-naming-server`.
+2. Start `B-currency-exchange-service`.
+3. Start this project.
+4. Stop `B-currency-exchange-service` and call the retry API again to test fallback.
+
+## Key Points Or Common Mistakes
+
+- The retry instance name in code is `currencyConversionServiceRetry`.
+- Fallback method parameters must match the original method, with optional `Throwable` at the end.
+- Circuit Breaker is not the same as Retry; it stops calls after repeated failures.
+
+
 ## Interview Points
 
 - Retry is good for temporary failures.
@@ -211,6 +229,9 @@ http://localhost:8080/currency-conversion-feign-circuit-breaker/from/USD/to/INR/
 
 In this chapter, Retry and Circuit Breaker handled service failures gracefully.
 The next chapter solves the problem of traffic overload, too many parallel calls, and slow responses.
+
+**Next step:** Continue with [J-currency-exchange-service-Rate-limiter-blukhead](../J-currency-exchange-service-Rate-limiter-blukhead/README.md), which solves the next remaining problem in the learning path.
+
 
 ## Interview Questions And Answers
 
@@ -225,3 +246,12 @@ Use Circuit Breaker when a service keeps failing and repeated calls should be st
 
 **Q4. What is a fallback method?**  
 A fallback method returns an alternate response when the main call fails.
+
+**Q5. What is the difference between Retry and Circuit Breaker?**  
+Retry repeats a failed call. Circuit Breaker stops calls when failures cross a limit.
+
+**Q6. What does `sliding-window-size` mean?**  
+It is the number of recent calls used to calculate the failure rate.
+
+**Q7. What does half-open state mean?**  
+The circuit allows a few test calls to check if the service recovered.

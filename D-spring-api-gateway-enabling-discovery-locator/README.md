@@ -5,10 +5,14 @@ The gateway becomes the single entry point for calling backend microservices.
 
 ## Agenda
 
-- Understand why API Gateway is needed.
-- Enable discovery locator in Spring Cloud Gateway.
-- Route requests using Eureka service names.
-- Use the gateway as one entry point for multiple services.
+- [Problem we will solve](#problem-solved-in-this-chapter)
+- [What you will learn](#what-you-will-learn)
+- [Main explanation and examples](#why-api-gateway-is-needed)
+- [How to run](#how-to-run)
+- [Key points or common mistakes](#key-points-or-common-mistakes)
+- [Chapter Summary and Next Step](#chapter-summary)
+- [Common interview questions](#interview-questions-and-answers)
+
 
 ## Problem Solved In This Chapter
 
@@ -26,6 +30,13 @@ With API Gateway:
 - Authentication and common checks can happen in one place.
 - The gateway routes the request to the correct service.
 - Internal service URLs are hidden from the client.
+
+## What You Will Learn
+
+- How Gateway uses Eureka service discovery.
+- How discovery locator creates routes automatically.
+- Why a gateway gives clients one entry point.
+
 
 ## Advantages
 
@@ -108,19 +119,6 @@ To make service ids lowercase in the URL:
 spring.cloud.gateway.discovery.locator.lower-case-service-id=true
 ```
 
-## How To Run
-
-1. Start `A-naming-server`.
-2. Start `B-currency-exchange-service`.
-3. Start more exchange service instances by changing the port, for example:
-
-```text
--Dserver.port=8001
-```
-
-4. Start `C-currency-conversion-service`.
-5. Start this gateway project.
-
 ## URLs
 
 Currency Exchange Service:
@@ -150,6 +148,26 @@ http://localhost:8765/CURRENCY-CONVERSION/currency-conversion-feign/from/USD/to/
 http://localhost:8765/CURRENCY-CONVERSION/currency-conversion/from/USD/to/INR/quantity/10
 ```
 
+## How To Run
+
+1. Start `A-naming-server`.
+2. Start `B-currency-exchange-service`.
+3. Start more exchange service instances by changing the port, for example:
+
+```text
+-Dserver.port=8001
+```
+
+4. Start `C-currency-conversion-service`.
+5. Start this gateway project.
+
+## Key Points Or Common Mistakes
+
+- Discovery locator exposes routes based on registered service ids.
+- Default Eureka service ids may appear uppercase in gateway URLs.
+- Do not run another gateway on port `8765` at the same time.
+
+
 ## Interview Points
 
 - API Gateway is a single entry point for microservices.
@@ -162,6 +180,9 @@ http://localhost:8765/CURRENCY-CONVERSION/currency-conversion/from/USD/to/INR/qu
 In this chapter, Spring Cloud Gateway automatically created routes from Eureka services.
 The next chapter solves the problem of making gateway URLs cleaner by using lowercase service ids.
 
+**Next step:** Continue with [E-spring-api-gateway-enabling-discovery-locator-lower-case](../E-spring-api-gateway-enabling-discovery-locator-lower-case/README.md), which solves the next remaining problem in the learning path.
+
+
 ## Interview Questions And Answers
 
 **Q1. What is API Gateway?**  
@@ -172,3 +193,12 @@ It automatically creates gateway routes for services registered in Eureka.
 
 **Q3. What does `lb://` mean?**  
 It means the gateway should use load balancing and service discovery to find the target service.
+
+**Q4. Which property enables discovery locator?**  
+`spring.cloud.gateway.discovery.locator.enabled=true` enables it.
+
+**Q5. Why can automatic routes be risky?**  
+They can expose services that you may not want clients to call directly.
+
+**Q6. What is the gateway port here?**  
+The gateway runs on port `8765`.

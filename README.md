@@ -17,20 +17,20 @@ This workspace uses the **Balanced** README style:
 
 | Chapter | Project | Problem Solved |
 | --- | --- | --- |
-| A | `A-naming-server` | How services discover each other using Eureka. |
-| B | `B-currency-exchange-service` | How a service registers with Eureka and serves exchange data. |
-| C | `C-currency-conversion-service` | How one service calls another service using discovery. |
-| D | `D-spring-api-gateway-enabling-discovery-locator` | How Gateway creates routes automatically from Eureka. |
-| E | `E-spring-api-gateway-enabling-discovery-locator-lower-case` | How to expose cleaner lowercase gateway URLs. |
-| F | `F-spring-api-gateway-With-Routes` | How to define gateway routes manually. |
-| G | `G-spring-cloud-gateway-with-Routes-Filter` | How route filters modify requests. |
-| H | `H-spring-cloud-gateway-Filter` | How global filters apply common logic to all routes. |
-| I | `I-currency-exchange-service-Resilience4j` | How retry and circuit breaker improve fault tolerance. |
-| J | `J-currency-exchange-service-Rate-limiter-blukhead` | How rate limiter, bulkhead, and timeout protect services. |
-| K | `K-distributed-tracing-for-services-a` | How distributed tracing starts from Service A. |
-| L | `L-distributed-tracing-for-services-b` | How tracing continues through Service B. |
-| M | `M-distributed-tracing-for-services-c` | How tracing continues through Service C. |
-| N | `N-distributed-tracing-for-services-d` | How tracing ends at Service D and appears in Zipkin. |
+| A | [`A-naming-server`](A-naming-server/README.md) | How services discover each other using Eureka. |
+| B | [`B-currency-exchange-service`](B-currency-exchange-service/README.md) | How a service registers with Eureka and serves exchange data. |
+| C | [`C-currency-conversion-service`](C-currency-conversion-service/README.md) | How one service calls another service using discovery. |
+| D | [`D-spring-api-gateway-enabling-discovery-locator`](D-spring-api-gateway-enabling-discovery-locator/README.md) | How Gateway creates routes automatically from Eureka. |
+| E | [`E-spring-api-gateway-enabling-discovery-locator-lower-case`](E-spring-api-gateway-enabling-discovery-locator-lower-case/README.md) | How to expose cleaner lowercase gateway URLs. |
+| F | [`F-spring-api-gateway-With-Routes`](F-spring-api-gateway-With-Routes/README.md) | How to define gateway routes manually. |
+| G | [`G-spring-cloud-gateway-with-Routes-Filter`](G-spring-cloud-gateway-with-Routes-Filter/README.md) | How route filters modify requests. |
+| H | [`H-spring-cloud-gateway-Filter`](H-spring-cloud-gateway-Filter/README.md) | How global filters apply common logic to all routes. |
+| I | [`I-currency-exchange-service-Resilience4j`](I-currency-exchange-service-Resilience4j/README.md) | How retry and circuit breaker improve fault tolerance. |
+| J | [`J-currency-exchange-service-Rate-limiter-blukhead`](J-currency-exchange-service-Rate-limiter-blukhead/README.md) | How rate limiter, bulkhead, and timeout protect services. |
+| K | [`K-distributed-tracing-for-services-a`](K-distributed-tracing-for-services-a/README.md) | How distributed tracing starts from Service A. |
+| L | [`L-distributed-tracing-for-services-b`](L-distributed-tracing-for-services-b/README.md) | How tracing continues through Service B. |
+| M | [`M-distributed-tracing-for-services-c`](M-distributed-tracing-for-services-c/README.md) | How tracing continues through Service C. |
+| N | [`N-distributed-tracing-for-services-d`](N-distributed-tracing-for-services-d/README.md) | How tracing ends at Service D and appears in Zipkin. |
 
 ## Recommended Learning Order
 

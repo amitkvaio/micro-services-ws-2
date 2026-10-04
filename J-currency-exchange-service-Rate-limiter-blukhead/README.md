@@ -11,10 +11,14 @@ These patterns help protect a service from overload and slow calls.
 
 ## Agenda
 
-- Use Rate Limiter to control request count.
-- Use Bulkhead to control parallel calls.
-- Use Time Limiter to stop long-running calls.
-- Understand the order of multiple Resilience4j aspects.
+- [Problem we will solve](#problem-solved-in-this-chapter)
+- [What you will learn](#what-you-will-learn)
+- [Main explanation and examples](#rate-limiter)
+- [How to run](#how-to-run)
+- [Key points or common mistakes](#key-points-or-common-mistakes)
+- [Chapter Summary and Next Step](#chapter-summary)
+- [Common interview questions](#interview-questions-and-answers)
+
 
 ## Problem Solved In This Chapter
 
@@ -84,6 +88,14 @@ This sends many parallel requests:
 ```cmd
 for /l %g in (1,1,100) do start "" curl http://localhost:8000/currency-conversion-rate-limiter/from/USD/to/INR/quantity/10
 ```
+
+## What You Will Learn
+
+- How Rate Limiter controls request volume.
+- How Bulkhead controls concurrent execution.
+- How Time Limiter handles slow async calls.
+- How multiple Resilience4j aspects are ordered.
+
 
 ## Bulkhead
 
@@ -226,6 +238,21 @@ resilience4j.circuitbreaker.circuitBreakerAspectOrder=4
 resilience4j.retry.retryAspectOrder=5
 ```
 
+## How To Run
+
+- From this project, run `mvn spring-boot:run`.
+- Open `http://localhost:8000/ratelimiter`.
+- Open `http://localhost:8000/bulkhead`.
+- Open `http://localhost:8000/timelimiter`.
+- Use the Windows CMD or PowerShell loops in this README to create load.
+
+## Key Points Or Common Mistakes
+
+- Bulkhead limits concurrent calls, while Rate Limiter limits calls over time.
+- Time Limiter requires async return types such as `CompletableFuture`.
+- Do not use aggressive local load tests against shared or production services.
+
+
 ## Interview Points
 
 - Rate Limiter controls request count.
@@ -238,6 +265,9 @@ resilience4j.retry.retryAspectOrder=5
 
 In this chapter, Rate Limiter, Bulkhead, and Time Limiter protected the service from overload and delays.
 The next chapter solves the problem of tracking one request across multiple microservices.
+
+**Next step:** Continue with [K-distributed-tracing-for-services-a](../K-distributed-tracing-for-services-a/README.md), which solves the next remaining problem in the learning path.
+
 
 ## Interview Questions And Answers
 
@@ -252,3 +282,13 @@ Time Limiter fails a call if it takes more than the configured time.
 
 **Q4. Why does Time Limiter need `CompletableFuture`?**  
 Because timeout and cancellation work better with asynchronous return types.
+
+
+**Q5. What is the difference between Rate Limiter and Bulkhead?**  
+Rate Limiter controls call rate. Bulkhead controls parallel calls.
+
+**Q6. What happens when Bulkhead is full?**  
+The request waits if configured, or fallback is called.
+
+**Q7. Why use Time Limiter with remote calls?**  
+It prevents slow calls from blocking resources for too long.

@@ -6,10 +6,14 @@ It also uses an H2 in-memory database for sample currency exchange data.
 
 ## Agenda
 
-- Register Currency Exchange Service with Eureka.
-- Store sample exchange values in H2 database.
-- Expose an API to return conversion multiple.
-- Prepare this service to be consumed by Currency Conversion Service.
+- [Problem we will solve](#problem-solved-in-this-chapter)
+- [What you will learn](#what-you-will-learn)
+- [Main explanation and examples](#eureka-client-dependency)
+- [How to run](#how-to-run)
+- [Key points or common mistakes](#key-points-or-common-mistakes)
+- [Chapter Summary and Next Step](#chapter-summary)
+- [Common interview questions](#interview-questions-and-answers)
+
 
 ## Problem Solved In This Chapter
 
@@ -26,6 +30,13 @@ Add this dependency in `pom.xml`:
     <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 </dependency>
 ```
+
+## What You Will Learn
+
+- How a Spring Boot service registers with Eureka.
+- How H2 stores sample exchange data.
+- How the exchange API returns a conversion multiple.
+
 
 ## What It Does
 
@@ -163,6 +174,20 @@ jdbc:h2:mem:testdb
 - Data is reset when the application restarts.
 - `data.sql` reloads sample data on startup.
 
+## How To Run
+
+- Start `A-naming-server` first.
+- From `B-currency-exchange-service`, run `mvn spring-boot:run`.
+- Open `http://localhost:8000/currency-exchange/from/USD/to/INR`.
+- Optional H2 console: `http://localhost:8000/h2-console` with JDBC URL `jdbc:h2:mem:testdb`.
+
+## Key Points Or Common Mistakes
+
+- Do not forget Eureka must be running on `8761` for registration.
+- H2 data is in memory and resets after restart.
+- `spring.config.import=optional:configserver:http://localhost:8888` means Config Server is optional here.
+
+
 ## Interview Points
 
 - Feign is used to call another REST service.
@@ -174,6 +199,9 @@ jdbc:h2:mem:testdb
 In this chapter, Currency Exchange Service was registered with Eureka and exposed exchange data.
 The next chapter solves the problem of calling this service from another microservice.
 
+**Next step:** Continue with [C-currency-conversion-service](../C-currency-conversion-service/README.md), which solves the next remaining problem in the learning path.
+
+
 ## Interview Questions And Answers
 
 **Q1. What is a Eureka Client?**  
@@ -184,3 +212,12 @@ H2 is lightweight and good for local learning or testing without installing a fu
 
 **Q3. Why should we avoid hardcoded service URLs?**  
 Hardcoded URLs break when service ports or server locations change.
+
+**Q4. Which endpoint returns exchange data?**  
+`/currency-exchange/from/{from}/to/{to}` returns the matching exchange value.
+
+**Q5. Where does sample data come from?**  
+It comes from `src/main/resources/data.sql`.
+
+**Q6. Why is the service name important?**  
+Other services use the registered name `currency-exchange` to discover this service.

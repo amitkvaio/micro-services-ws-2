@@ -5,10 +5,14 @@ Instead of depending only on discovery locator, we manually decide which paths s
 
 ## Agenda
 
-- Create gateway routes using Java configuration.
-- Route selected paths to selected services.
-- Understand `RouteLocator` and `RouteLocatorBuilder`.
-- Prepare for request modification using filters.
+- [Problem we will solve](#problem-solved-in-this-chapter)
+- [What you will learn](#what-you-will-learn)
+- [Main explanation and examples](#route-configuration)
+- [How to run](#how-to-run)
+- [Key points or common mistakes](#key-points-or-common-mistakes)
+- [Chapter Summary and Next Step](#chapter-summary)
+- [Common interview questions](#interview-questions-and-answers)
+
 
 ## Problem Solved In This Chapter
 
@@ -37,6 +41,13 @@ public class SpringCloudGatewayRouting {
     }
 }
 ```
+
+## What You Will Learn
+
+- How to define selected routes in Java.
+- How `RouteLocatorBuilder` maps paths to services.
+- Why manual routes give better API control.
+
 
 ## Explanation
 
@@ -97,6 +108,19 @@ http://localhost:8765/currency-conversion-feign/from/USD/to/INR/quantity/10
 http://localhost:8765/currency-conversion/from/USD/to/INR/quantity/10
 ```
 
+## How To Run
+
+- Start Eureka, Currency Exchange, and Currency Conversion first.
+- From this project, run `./mvnw.cmd spring-boot:run` on Windows or `mvn spring-boot:run`.
+- Open `http://localhost:8765/currency-exchange/from/USD/to/INR`.
+
+## Key Points Or Common Mistakes
+
+- Manual routes and discovery locator can both affect routing; know which URL style you are testing.
+- Use `lb://SERVICE-NAME` when routing through Eureka.
+- Path predicates must match the incoming gateway path.
+
+
 ## Interview Points
 
 - Manual routes give more control than discovery locator.
@@ -108,6 +132,9 @@ http://localhost:8765/currency-conversion/from/USD/to/INR/quantity/10
 In this chapter, we manually controlled gateway routes.
 The next chapter solves the problem of modifying requests before they reach backend services.
 
+**Next step:** Continue with [G-spring-cloud-gateway-with-Routes-Filter](../G-spring-cloud-gateway-with-Routes-Filter/README.md), which solves the next remaining problem in the learning path.
+
+
 ## Interview Questions And Answers
 
 **Q1. What is `RouteLocator`?**  
@@ -118,3 +145,13 @@ Manual routes give more security and control over exposed APIs.
 
 **Q3. What is the advantage of `lb://SERVICE-NAME`?**  
 It allows the gateway to discover and load balance service instances through Eureka.
+
+
+**Q4. What is a path predicate?**  
+It is a route condition that checks the incoming request path.
+
+**Q5. Why use manual routes instead of automatic routes?**  
+Manual routes expose only the APIs we choose.
+
+**Q6. Can filters be added to manual routes?**  
+Yes. Route filters are added in the route definition.
