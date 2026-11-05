@@ -165,42 +165,6 @@ Change   : remove /CURRENCY-CONVERSION from the path
 Send to  : whichever CURRENCY-CONVERSION instance Eureka returns (localhost:8100)
 ```
 
-## There's one route like this per service
-
-D creates the same kind of route for every service in Eureka. For example, it also creates this one:
-
-```java
-.route("ReactiveCompositeDiscoveryClient_CURRENCY-EXCHANGE", p -> p
-        .path("/CURRENCY-EXCHANGE/**")
-        .filters(f -> f.rewritePath("/CURRENCY-EXCHANGE/?(?<remaining>.*)", "/${remaining}"))
-        .uri("lb://CURRENCY-EXCHANGE"))
-```
-
-## In E, the route uses small letters
-
-With `lowerCaseServiceId=true`, only the `path` and `rewritePath` parts change to small letters:
-
-```java
-.route("ReactiveCompositeDiscoveryClient_CURRENCY-CONVERSION", p -> p
-        .path("/currency-conversion/**")
-        .filters(f -> f.rewritePath("/currency-conversion/?(?<remaining>.*)", "/${remaining}"))
-        .uri("lb://CURRENCY-CONVERSION"))
-```
-
-The name and the `lb://` target stay in capitals. They don't affect which URL you type: the name is just a label, and the `lb://` service lookup isn't case-sensitive.
-
-## Compared with your manual route in F
-
-```java
-.route(p -> p
-        .path("/currency-conversion/**")
-        .uri("lb://CURRENCY-CONVERSION"))
-```
-
-It's the same idea, but with no `rewritePath` line. Nothing gets removed, so C receives `/currency-conversion/currency-conversion-feign/...`. C has no mapping for that path, which is why you got the 404 in F.
-
-```
-
 ## Manual Route Example
 
 If discovery locator is disabled, define routes manually:
