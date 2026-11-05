@@ -95,6 +95,112 @@ http://localhost:8765/CURRENCY-EXCHANGE/currency-exchange/from/USD/to/INR
 
 Here, `CURRENCY-EXCHANGE` is the service name from Eureka.
 
+### Routes generate the code
+```
+.route("ReactiveCompositeDiscoveryClient_CURRENCY-CONVERSION", p -> p
+        .path("/CURRENCY-CONVERSION/**")
+        .filters(f -> f.rewritePath("/CURRENCY-CONVERSION/?(?<remaining>.*)", "/${remaining}"))
+        .uri("lb://CURRENCY-CONVERSION"))
+```
+
+```java
+.route("ReactiveCompositeDiscoveryClient_CURRENCY-CONVERSION", p -> p
+```
+
+This is the route's name (ID), used only to identify it, for example in logs or `/actuator/gateway/routes`.
+
+```java
+        .path("/CURRENCY-CONVERSION/**")
+```
+
+This is the condition. Use this route only if the URL path starts with `/CURRENCY-CONVERSION/`. `**` means "anything after that".
+
+```java
+        .filters(f -> f.rewritePath("/CURRENCY-CONVERSION/?(?<remaining>.*)", "/${remaining}"))
+```
+
+This changes the path before sending it on, by removing `/CURRENCY-CONVERSION`. It takes two arguments.
+
+**1. What to look for:** the regex `/CURRENCY-CONVERSION/?(?<remaining>.*)`
+
+|`/CURRENCY-CONVERSION` | the exact text `/CURRENCY-CONVERSION` |
+
+| `/?` | an optional `/` (`?` means 0 or 1 of it) |
+
+| `(?<remaining>.*)` | capture **everything after it** and store it under the name `remaining` |
+
+**2. What to replace it with:** `/${remaining}`, which is a `/` followed by whatever was captured.
+
+Example:
+
+```text
+Before:  /CURRENCY-CONVERSION/currency-conversion-feign/from/USD/to/INR/quantity/10
+          └── matched & dropped ─┘└──────────── remaining ───────────────────────┘
+
+After:   /currency-conversion-feign/from/USD/to/INR/quantity/10
+```
+
+```java
+        .uri("lb://CURRENCY-CONVERSION"))
+```
+
+This says where to send the request:
+- `lb://` means "use the load balancer".
+- `CURRENCY-CONVERSION` is the service name to look up in Eureka, not a hostname.
+
+The gateway asks Eureka for an instance of `CURRENCY-CONVERSION`, gets `localhost:8100`, and sends the rewritten path there:
+
+```text
+http://localhost:8100/currency-conversion-feign/from/USD/to/INR/quantity/10
+```
+
+If C were running on two ports, the load balancer would alternate between them.
+
+## All four lines together
+
+```text
+Name     : ReactiveCompositeDiscoveryClient_CURRENCY-CONVERSION
+When     : path starts with /CURRENCY-CONVERSION/
+Change   : remove /CURRENCY-CONVERSION from the path
+Send to  : whichever CURRENCY-CONVERSION instance Eureka returns (localhost:8100)
+```
+
+## There's one route like this per service
+
+D creates the same kind of route for every service in Eureka. For example, it also creates this one:
+
+```java
+.route("ReactiveCompositeDiscoveryClient_CURRENCY-EXCHANGE", p -> p
+        .path("/CURRENCY-EXCHANGE/**")
+        .filters(f -> f.rewritePath("/CURRENCY-EXCHANGE/?(?<remaining>.*)", "/${remaining}"))
+        .uri("lb://CURRENCY-EXCHANGE"))
+```
+
+## In E, the route uses small letters
+
+With `lowerCaseServiceId=true`, only the `path` and `rewritePath` parts change to small letters:
+
+```java
+.route("ReactiveCompositeDiscoveryClient_CURRENCY-CONVERSION", p -> p
+        .path("/currency-conversion/**")
+        .filters(f -> f.rewritePath("/currency-conversion/?(?<remaining>.*)", "/${remaining}"))
+        .uri("lb://CURRENCY-CONVERSION"))
+```
+
+The name and the `lb://` target stay in capitals. They don't affect which URL you type: the name is just a label, and the `lb://` service lookup isn't case-sensitive.
+
+## Compared with your manual route in F
+
+```java
+.route(p -> p
+        .path("/currency-conversion/**")
+        .uri("lb://CURRENCY-CONVERSION"))
+```
+
+It's the same idea, but with no `rewritePath` line. Nothing gets removed, so C receives `/currency-conversion/currency-conversion-feign/...`. C has no mapping for that path, which is why you got the 404 in F.
+
+```
+
 ## Manual Route Example
 
 If discovery locator is disabled, define routes manually:
