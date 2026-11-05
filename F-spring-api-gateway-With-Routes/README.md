@@ -100,19 +100,41 @@ http://localhost:8765/currency-conversion/currency-conversion-feign/from/USD/to/
 http://localhost:8765/currency-conversion/currency-conversion/from/USD/to/INR/quantity/10
 ```
 
-Manual route style:
-
-```text
-http://localhost:8765/currency-exchange/from/USD/to/INR
-http://localhost:8765/currency-conversion-feign/from/USD/to/INR/quantity/10
-http://localhost:8765/currency-conversion/from/USD/to/INR/quantity/10
-```
-
 ## How To Run
 
 - Start Eureka, Currency Exchange, and Currency Conversion first.
 - From this project, run `./mvnw.cmd spring-boot:run` on Windows or `mvn spring-boot:run`.
-- Open `http://localhost:8765/currency-exchange/from/USD/to/INR`.
+- Open
+
+        `http://localhost:8765/currency-exchange/from/USD/to/INR`  
+        `http://localhost:8765/currency-conversion-feign/from/USD/to/INR/quantity/10`  
+        `http://localhost:8765/currency-conversion/from/USD/to/INR/quantity/10`
+
+## Code Flow
+```text
+Browser
+  │ GET http://localhost:8765/currency-conversion-feign/from/USD/to/INR/quantity/10
+  ▼
+F  API Gateway (8765)
+  │ ① route /currency-conversion-feign/** → lb://CURRENCY-CONVERSION
+  │ ② Eureka lookup + load balancer → localhost:8100
+  │ GET http://localhost:8100/currency-conversion-feign/from/USD/to/INR/quantity/10
+  ▼
+C  Currency Conversion (8100)
+  │ ③ CurrencyConversionController.calculateCurrencyConversionFeign("USD","INR",10)
+  │ ④ proxy.retrieveExchangeValue("USD","INR")    ← Feign client
+  │ ⑤ Eureka lookup for "currency-exchange" + load balancer → localhost:8000
+  │ GET http://localhost:8000/currency-exchange/from/USD/to/INR
+  ▼
+B  Currency Exchange (8000)
+  │ ⑥ CurrencyExchangeController.retrieveExchangeValue("USD","INR")
+  │ ⑦ repository.findByFromAndTo("USD","INR") → H2 → id=10001, multiple=65
+  │ ⑧ environment = "8000_Reading-Values-From-H2-DB"
+  ▼
+  JSON back to C → C computes 10 × 65 = 650 → JSON back to F → F returns it to the browser
+
+
+```
 
 ## Key Points Or Common Mistakes
 

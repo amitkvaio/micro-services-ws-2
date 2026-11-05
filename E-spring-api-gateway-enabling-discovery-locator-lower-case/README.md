@@ -57,15 +57,6 @@ Example:
 http://localhost:8765/currency-exchange/**
 ```
 
-This looks cleaner and is easier to type.
-
-## Summary
-
-| Setting | URL Example | Use Case |
-| --- | --- | --- |
-| `false` | `/CURRENCY-EXCHANGE/**` | Match Eureka service id exactly. |
-| `true` | `/currency-exchange/**` | Use cleaner REST-style URLs. |
-
 ## Best Practice
 
 Usually, keep this property as `true`.
@@ -122,6 +113,30 @@ http://localhost:8765/currency-conversion/currency-conversion/from/USD/to/INR/qu
 - The service id segment and backend API path can both appear in the URL.
 - Only one service can use port `8765` at a time.
 
+## Note
+
+```text
+spring.cloud.gateway.discovery.locator.enabled=true
+spring.cloud.gateway.discovery.locator.lowerCaseServiceId=true
+```
+- The second line tells the gateway to convert the service names to small letters before creating the rules
+
+```text
+Rule 1: URL starts with /currency-exchange/    → remove that part → send the rest to CURRENCY-EXCHANGE
+Rule 2: URL starts with /currency-conversion/  → remove that part → send the rest to CURRENCY-CONVERSION
+```
+## Example
+```text
+You type:   http://localhost:8765/currency-conversion/currency-conversion-feign/from/USD/to/INR/quantity/10
+                                 └─ service name ──┘└──────────── actual API path ────────────────┘
+
+Step 1: E sees "/currency-conversion/" → matches Rule 2
+Step 2: E removes "/currency-conversion"
+Step 3: E sends the rest to C (port 8100):
+        http://localhost:8100/currency-conversion-feign/from/USD/to/INR/quantity/10
+Step 4: C answers → E gives that answer to you
+
+```
 
 ## Interview Points
 

@@ -167,6 +167,27 @@ http://localhost:8765/CURRENCY-CONVERSION/currency-conversion/from/USD/to/INR/qu
 - Default Eureka service ids may appear uppercase in gateway URLs.
 - Do not run another gateway on port `8765` at the same time.
 
+## spring.cloud.gateway.discovery.locator.enabled=true
+- To enable the spring cloud gateway we need to add above property here.
+- This tells the gateway to create a route for every service name in Eureka, 
+- using the name exactly as Eureka stores it, in CAPITALS.
+
+```text
+Rule 1: URL starts with /CURRENCY-EXCHANGE/    → remove that part → send the rest to CURRENCY-EXCHANGE
+Rule 2: URL starts with /CURRENCY-CONVERSION/  → remove that part → send the rest to CURRENCY-CONVERSION
+
+
+You type:   http://localhost:8765/CURRENCY-CONVERSION/currency-conversion-feign/from/USD/to/INR/quantity/10
+                                 └──── service name ──┘└──────────── actual API path ────────────────┘
+
+Step 1: D sees "/CURRENCY-CONVERSION/" → matches Rule 2
+Step 2: D removes "/CURRENCY-CONVERSION"
+Step 3: D sends the rest to C (port 8100):
+        http://localhost:8100/currency-conversion-feign/from/USD/to/INR/quantity/10
+Step 4: C answers → D gives that answer to you
+
+```
+
 
 ## Interview Points
 
